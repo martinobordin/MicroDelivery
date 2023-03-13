@@ -1,6 +1,5 @@
 using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace MicroDelivery.Customers.Api.Controllers
 {
@@ -31,6 +30,7 @@ namespace MicroDelivery.Customers.Api.Controllers
                     {
                         FirstName = $"FirstName_{index}",
                         LastName = $"LastName_{index}",
+                        LastUpdate = DateTime.Now
                     });
 
                 this.logger.LogInformation("Saving customers to state");
