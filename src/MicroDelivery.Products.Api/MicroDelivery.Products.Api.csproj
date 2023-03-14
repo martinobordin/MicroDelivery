@@ -10,5 +10,10 @@
     <PackageReference Include="Man.Dapr.Sidekick.AspNetCore" Version="1.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="dapr\components\mongo.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
