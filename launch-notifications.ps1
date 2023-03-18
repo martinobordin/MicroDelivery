@@ -1,0 +1,1 @@
+dapr run --app-id "microdelivery-notifications" --app-port "9000" --dapr-http-port "9010" --resources-path ./dapr/components -- dotnet run --project ./src/MicroDelivery.Notifications.Api/MicroDelivery.Notifications.Api.csproj  --urls="http://+:9000"

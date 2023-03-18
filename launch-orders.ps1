@@ -1,0 +1,1 @@
+dapr run --app-id "microdelivery-orders" --app-port "8000" --dapr-http-port "8010" --resources-path ./dapr/components -- dotnet run --project ./src/MicroDelivery.Orders.Api/MicroDelivery.Orders.Api.csproj  --urls="http://+:8000"

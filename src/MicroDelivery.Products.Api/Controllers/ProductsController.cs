@@ -1,5 +1,4 @@
 using Dapr.Client;
-using Man.Dapr.Sidekick;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroDelivery.Products.Api.Controllers
@@ -10,7 +9,6 @@ namespace MicroDelivery.Products.Api.Controllers
     {
         private readonly ILogger<ProductsController> logger;
         private readonly DaprClient daprClient;
-        private readonly IDaprSidecarHost daprSidecarHost;
 
         public ProductsController(ILogger<ProductsController> logger, DaprClient daprClient)
         {
@@ -48,7 +46,6 @@ namespace MicroDelivery.Products.Api.Controllers
             }
             catch (Exception ex)
             {
-
                 throw;
             }
             
