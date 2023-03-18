@@ -1,4 +1,5 @@
 using Dapr.Client;
+using MicroDelivery.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroDelivery.Products.Api.Controllers
@@ -21,35 +22,26 @@ namespace MicroDelivery.Products.Api.Controllers
         {
             this.logger.LogInformation("Get products called");
 
-            try
+            var cachedProducts = await daprClient.GetStateAsync<IEnumerable<ProductDto>>(DaprConstants.MongoStateStore, "products.get");
+            if (cachedProducts == null)
             {
-                var cachedProducts = await daprClient.GetStateAsync<IEnumerable<ProductDto>>("mongostore", "products.get");
-                if (cachedProducts == null)
-                {
-                    cachedProducts = Enumerable
-                        .Range(1, 5)
-                        .Select(index => new ProductDto
-                        {
-                            Sku = $"Sku_{index}",
-                            Description = $"Description_{index}",
-                            LastUpdate = DateTime.Now
-                        });
+                cachedProducts = Enumerable
+                    .Range(1, 5)
+                    .Select(index => new ProductDto
+                    {
+                        Sku = $"Sku_{index}",
+                        Description = $"Description_{index}",
+                        LastUpdate = DateTime.Now
+                    });
 
-                    this.logger.LogInformation("Saving products to state");
+                this.logger.LogInformation("Saving products to state");
 
-                    await daprClient.SaveStateAsync("mongostore", "products.get", cachedProducts, metadata: new Dictionary<string, string>() { { "ttlInSeconds", "5" } });
-                }
-
-                this.logger.LogInformation("Returning products from state");
-
-                return cachedProducts;
+                await daprClient.SaveStateAsync(DaprConstants.MongoStateStore, "products.get", cachedProducts, metadata: new Dictionary<string, string>() { { "ttlInSeconds", "5" } });
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            
-  
+
+            this.logger.LogInformation("Returning products from state");
+
+            return cachedProducts;
         }
     }
 }

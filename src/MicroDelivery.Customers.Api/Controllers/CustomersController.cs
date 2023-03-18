@@ -1,4 +1,5 @@
 using Dapr.Client;
+using MicroDelivery.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroDelivery.Customers.Api.Controllers
@@ -22,7 +23,7 @@ namespace MicroDelivery.Customers.Api.Controllers
         {
             this.logger.LogInformation("Get customers called");
 
-            var cachedCustomers = await daprClient.GetStateAsync<IEnumerable<CustomerDto>>("statestore", "customers.get");
+            var cachedCustomers = await daprClient.GetStateAsync<IEnumerable<CustomerDto>>(DaprConstants.StateStore, "customers.get");
             if (cachedCustomers == null) {
                 cachedCustomers = Enumerable
                     .Range(1, 5)
@@ -35,7 +36,7 @@ namespace MicroDelivery.Customers.Api.Controllers
 
                 this.logger.LogInformation("Saving customers to state");
 
-                await daprClient.SaveStateAsync("statestore", "customers.get", cachedCustomers, metadata: new Dictionary<string, string>() { { "ttlInSeconds", "5" } });
+                await daprClient.SaveStateAsync(DaprConstants.StateStore, "customers.get", cachedCustomers, metadata: new Dictionary<string, string>() { { "ttlInSeconds", "5" } });
             }
 
             this.logger.LogInformation("Returning customers from state");

@@ -8,18 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}"
-	ProjectSection(SolutionItems) = preProject
-		tests\customers.http = tests\customers.http
-		tests\products.http = tests\products.http
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C69F322-C6EF-4FDB-8F84-E74BA27C0294}"
 	ProjectSection(SolutionItems) = preProject
-		launch-customers.ps1 = launch-customers.ps1
-		launch-dashboard.ps1 = launch-dashboard.ps1
-		launch-notifications.ps1 = launch-notifications.ps1
-		launch-orders.ps1 = launch-orders.ps1
-		launch-products.ps1 = launch-products.ps1
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Products.Api", "src\MicroDelivery.Products.Api\MicroDelivery.Products.Api.csproj", "{A872B750-562C-4BEE-AFE6-F5FC91EA8A9B}"
@@ -33,7 +25,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Orders.Api", "src\MicroDelivery.Orders.Api\MicroDelivery.Orders.Api.csproj", "{A7399230-C703-460F-B442-EC21AE69802C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDelivery.Notifications.Api", "src\MicroDelivery.Notifications.Api\MicroDelivery.Notifications.Api.csproj", "{217CFEAD-7169-402C-98D4-4E57172B3619}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Notifications.Api", "src\MicroDelivery.Notifications.Api\MicroDelivery.Notifications.Api.csproj", "{217CFEAD-7169-402C-98D4-4E57172B3619}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDelivery.Shared", "src\MicroDelivery.Shared\MicroDelivery.Shared.csproj", "{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{1B9B835E-CE5D-4F53-BD2B-3367B367C78B}"
+	ProjectSection(SolutionItems) = preProject
+		tests\http\customers.http = tests\http\customers.http
+		tests\http\products.http = tests\http\products.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "launchers", "launchers", "{32A65B82-72EE-4257-94F1-C467BEE25D8B}"
+	ProjectSection(SolutionItems) = preProject
+		launchers\launch-all.ps1 = launchers\launch-all.ps1
+		launchers\launch-customers.ps1 = launchers\launch-customers.ps1
+		launchers\launch-dashboard.ps1 = launchers\launch-dashboard.ps1
+		launchers\launch-notifications.ps1 = launchers\launch-notifications.ps1
+		launchers\launch-orders.ps1 = launchers\launch-orders.ps1
+		launchers\launch-products.ps1 = launchers\launch-products.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +67,10 @@ Global
 		{217CFEAD-7169-402C-98D4-4E57172B3619}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{217CFEAD-7169-402C-98D4-4E57172B3619}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{217CFEAD-7169-402C-98D4-4E57172B3619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +81,9 @@ Global
 		{FD417519-1D17-4753-9E05-8FF541BD5933} = {7FF98530-3BFA-4622-A540-54ED603EB90F}
 		{A7399230-C703-460F-B442-EC21AE69802C} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
 		{217CFEAD-7169-402C-98D4-4E57172B3619} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
+		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
+		{1B9B835E-CE5D-4F53-BD2B-3367B367C78B} = {C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}
+		{32A65B82-72EE-4257-94F1-C467BEE25D8B} = {8C69F322-C6EF-4FDB-8F84-E74BA27C0294}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A2E0637-8C6F-4B9F-A195-8E7BA112BBE1}
