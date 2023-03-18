@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		launch-customers.ps1 = launch-customers.ps1
 		launch-dashboard.ps1 = launch-dashboard.ps1
+		launch-notifications.ps1 = launch-notifications.ps1
+		launch-orders.ps1 = launch-orders.ps1
 		launch-products.ps1 = launch-products.ps1
 	EndProjectSection
 EndProject
