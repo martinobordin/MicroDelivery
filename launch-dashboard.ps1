@@ -1,1 +1,2 @@
 dapr dashboard
+Pause
