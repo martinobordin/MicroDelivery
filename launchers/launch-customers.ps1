@@ -1,1 +1,0 @@
-dapr run --app-id "microdelivery-customers" --app-port "6000" --dapr-http-port "6010" --resources-path ../dapr/components -- dotnet run --project ../src/MicroDelivery.Customers.Api/MicroDelivery.Customers.Api.csproj  --urls="http://+:6000"

@@ -1,0 +1,71 @@
+version: '3.4'
+
+services:
+  microdelivery.customers.api:
+    container_name: microdelivery.customers.api
+    image: ${DOCKER_REGISTRY-}microdeliverycustomersapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Customers.Api/Dockerfile
+  microdelivery.customers.api.dapr:
+    container_name: microdelivery.customers.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.customers.api"
+    depends_on:
+      - microdelivery.customers.api
+
+  microdelivery.orders.api:
+    container_name: microdelivery.orders.api
+    image: ${DOCKER_REGISTRY-}microdeliveryordersapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Orders.Api/Dockerfile
+  microdelivery.orders.api.dapr:
+    container_name: microdelivery.orders.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.orders.api"
+    depends_on:
+      - microdelivery.orders.api
+
+
+  microdelivery.notifications.api:
+    container_name: microdelivery.notifications.api
+    image: ${DOCKER_REGISTRY-}microdeliverynotificationsapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Notifications.Api/Dockerfile
+  microdelivery.notifications.api.dapr:
+    container_name: microdelivery.notifications.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.notifications.api"
+    depends_on:
+      - microdelivery.notifications.api
+
+  microdelivery.products.api:
+    container_name: microdelivery.products.api
+    image: ${DOCKER_REGISTRY-}microdeliveryproductsapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Products.Api/Dockerfile
+  microdelivery.products.api.dapr:
+    container_name: microdelivery.products.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.products.api"
+    depends_on:
+      - microdelivery.products.api
+
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db

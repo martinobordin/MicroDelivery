@@ -7,4 +7,4 @@ spec:
   version: v1
   metadata:
   - name: host
-    value: "localhost:27017"
+    value: "mongo:27017"

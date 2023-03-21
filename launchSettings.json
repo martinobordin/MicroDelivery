@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "microdelivery.customers.api": "StartDebugging",
+        "microdelivery.orders.api": "StartDebugging",
+        "microdelivery.notifications.api": "StartDebugging",
+        "microdelivery.products.api": "StartDebugging"
+      }
+    }
+  }
+}

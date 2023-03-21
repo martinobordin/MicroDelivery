@@ -1,0 +1,81 @@
+version: '3.4'
+
+services:
+  microdelivery.customers.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+  microdelivery.customers.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-customers-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+  microdelivery.orders.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+  microdelivery.orders.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-orders-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+
+  microdelivery.notifications.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+  microdelivery.notifications.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-notifications-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+
+  microdelivery.products.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+  microdelivery.products.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-products-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+  redis:
+    ports:
+      - 6379:6379
+  
+  mongo:
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
