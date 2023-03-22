@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
-		dapr\components\statestore.yaml = dapr\components\statestore.yaml
+		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Orders.Api", "src\MicroDelivery.Orders.Api\MicroDelivery.Orders.Api.csproj", "{A7399230-C703-460F-B442-EC21AE69802C}"
