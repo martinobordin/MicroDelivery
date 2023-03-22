@@ -7,6 +7,9 @@ services:
     build:
       context: .
       dockerfile: src/MicroDelivery.Customers.Api/Dockerfile
+    depends_on:
+      - sqlserver
+      - redis
   microdelivery.customers.api.dapr:
     container_name: microdelivery.customers.api.dapr
     image: "daprio/daprd:latest"
@@ -47,6 +50,9 @@ services:
     build:
       context: .
       dockerfile: src/MicroDelivery.Products.Api/Dockerfile
+    depends_on:
+        - mongo
+        - redis
   microdelivery.products.api.dapr:
     container_name: microdelivery.products.api.dapr
     image: "daprio/daprd:latest"
@@ -69,3 +75,10 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
+  sqlserver:
+    container_name: sqlserver
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - "1433:1433"

@@ -1,6 +1,9 @@
 using Dapr.Client;
+using MicroDelivery.Products.Api.Data;
+using MicroDelivery.Products.Api.Models;
 using MicroDelivery.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MicroDelivery.Products.Api.Controllers
 {
@@ -10,38 +13,72 @@ namespace MicroDelivery.Products.Api.Controllers
     {
         private readonly ILogger<ProductsController> logger;
         private readonly DaprClient daprClient;
+        private readonly IProductRepository productRepository;
 
-        public ProductsController(ILogger<ProductsController> logger, DaprClient daprClient)
+        private const string StateKey = "GetProducts";
+        private readonly Dictionary<string, string> stateMetaData = new() { { "ttlInSeconds", "10" } };
+
+        public ProductsController(ILogger<ProductsController> logger, DaprClient daprClient, IProductRepository productRepository)
         {
             this.logger = logger;
             this.daprClient = daprClient;
+            this.productRepository = productRepository; 
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductDto>> GetAsync()
+        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            this.logger.LogInformation("Get products called");
-
-            var cachedProducts = await daprClient.GetStateAsync<IEnumerable<ProductDto>>(DaprConstants.MongoStateStore, "products.get");
-            if (cachedProducts == null)
+            logger.LogInformation($"{nameof(GetProducts)} called. Checking the state");
+            
+            var products = await daprClient.GetStateAsync<IEnumerable<Product>>(DaprConstants.RedisStateStore, StateKey);
+            if (products == null)
             {
-                cachedProducts = Enumerable
-                    .Range(1, 5)
-                    .Select(index => new ProductDto
-                    {
-                        Sku = $"Sku_{index}",
-                        Description = $"Description_{index}",
-                        LastUpdate = DateTime.Now
-                    });
+                products = await this.productRepository.GetProductsAsync();
+                await daprClient.SaveStateAsync(DaprConstants.RedisStateStore, StateKey, products, metadata: stateMetaData);
 
-                this.logger.LogInformation("Saving products to state");
+                logger.LogInformation($"{nameof(GetProducts)} called. State updated");
+            }
+                
+            return Ok(products);
+        }
 
-                await daprClient.SaveStateAsync(DaprConstants.MongoStateStore, "products.get", cachedProducts, metadata: new Dictionary<string, string>() { { "ttlInSeconds", "5" } });
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProduct(Guid id)
+        {
+            var product = await this.productRepository.GetProductAsync(id);
+            if (product is null)
+            {
+                return NotFound();
             }
 
-            this.logger.LogInformation("Returning products from state");
+            return Ok(product);
+        }
 
-            return cachedProducts;
+        [HttpPost]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.Created)]
+        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        {
+            await this.productRepository.CreateProductAsync(product);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Product>> UpdateProduct(Product product)
+        {
+            await this.productRepository.UpdateProductAsync(product);
+            return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Product>> DeleteProduct(Guid id)
+        {
+            await this.productRepository.DeleteProductAsync(id);
+            return Ok();
         }
     }
 }

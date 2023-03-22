@@ -4,6 +4,7 @@ services:
   microdelivery.customers.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SqlServer=Server=sqlserver;Database=CustomersDb;User Id=sa;Password=admin12345!;TrustServerCertificate=true
     ports:
       - "80"
   microdelivery.customers.api.dapr:
@@ -54,6 +55,7 @@ services:
   microdelivery.products.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__ConnectionString=mongodb://mongo:27017
     ports:
       - "80"
   microdelivery.products.api.dapr:
@@ -76,6 +78,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
+  sqlserver:
+   environment:
+        SA_PASSWORD: "admin12345!"
+        ACCEPT_EULA: "Y"
 
 volumes:
   mongo_data:

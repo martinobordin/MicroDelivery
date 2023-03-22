@@ -1,6 +1,10 @@
+using MicroDelivery.Products.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddHostedService<DatabaseSeeder>();
 
 builder.Services.AddControllers().AddDapr();
 
