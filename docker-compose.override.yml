@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+  # Customers Api & Sidecar
   microdelivery.customers.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -18,7 +19,7 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-
+  # Products Api & Sidecar
   microdelivery.products.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -36,7 +37,7 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-
+  # Orders Api & Sidecar
   microdelivery.orders.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -52,13 +53,29 @@ services:
     volumes:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
-
-
-  microdelivery.notifications.api:
+  # Shipping Api & Sidecar
+  microdelivery.shipping.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8003:80"
+  microdelivery.shipping.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-shipping-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
+  # Notifications Api & Sidecar
+  microdelivery.notifications.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8004:80"
   microdelivery.notifications.api.dapr:
     command: ["./daprd",
       "-app-id", "microdelivery-notifications-api",
@@ -69,7 +86,8 @@ services:
     volumes:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
-
+  
+  # Other services
   redis:
     ports:
       - 6379:6379
@@ -87,3 +105,4 @@ services:
 
 volumes:
   mongo_data:
+

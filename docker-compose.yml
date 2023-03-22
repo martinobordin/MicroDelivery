@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+  # Customers Api & Sidecar
   microdelivery.customers.api:
     container_name: microdelivery.customers.api
     image: ${DOCKER_REGISTRY-}microdeliverycustomersapi
@@ -17,33 +18,7 @@ services:
     depends_on:
       - microdelivery.customers.api
 
-  microdelivery.orders.api:
-    container_name: microdelivery.orders.api
-    image: ${DOCKER_REGISTRY-}microdeliveryordersapi
-    build:
-      context: .
-      dockerfile: src/MicroDelivery.Orders.Api/Dockerfile
-  microdelivery.orders.api.dapr:
-    container_name: microdelivery.orders.api.dapr
-    image: "daprio/daprd:latest"
-    network_mode: "service:microdelivery.orders.api"
-    depends_on:
-      - microdelivery.orders.api
-
-
-  microdelivery.notifications.api:
-    container_name: microdelivery.notifications.api
-    image: ${DOCKER_REGISTRY-}microdeliverynotificationsapi
-    build:
-      context: .
-      dockerfile: src/MicroDelivery.Notifications.Api/Dockerfile
-  microdelivery.notifications.api.dapr:
-    container_name: microdelivery.notifications.api.dapr
-    image: "daprio/daprd:latest"
-    network_mode: "service:microdelivery.notifications.api"
-    depends_on:
-      - microdelivery.notifications.api
-
+  # Products Api & Sidecar
   microdelivery.products.api:
     container_name: microdelivery.products.api
     image: ${DOCKER_REGISTRY-}microdeliveryproductsapi
@@ -60,6 +35,52 @@ services:
     depends_on:
       - microdelivery.products.api
 
+  # Orders Api & Sidecar
+  microdelivery.orders.api:
+    container_name: microdelivery.orders.api
+    image: ${DOCKER_REGISTRY-}microdeliveryordersapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Orders.Api/Dockerfile
+    depends_on:
+      - microdelivery.customers.api
+      - microdelivery.products.api
+  microdelivery.orders.api.dapr:
+    container_name: microdelivery.orders.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.orders.api"
+    depends_on:
+      - microdelivery.orders.api
+
+  # Shipping Api & Sidecar
+  microdelivery.shipping.api:
+    container_name: microdelivery.shipping.api.dapr
+    image: ${DOCKER_REGISTRY-}microdeliveryshippingapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Shipping.Api/Dockerfile
+  microdelivery.shipping.api.dapr:
+    container_name: microdelivery.shipping.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.shipping.api"
+    depends_on:
+      - microdelivery.shipping.api
+  
+  # Notifications Api & Sidecar
+  microdelivery.notifications.api:
+    container_name: microdelivery.notifications.api
+    image: ${DOCKER_REGISTRY-}microdeliverynotificationsapi
+    build:
+      context: .
+      dockerfile: src/MicroDelivery.Notifications.Api/Dockerfile
+  microdelivery.notifications.api.dapr:
+    container_name: microdelivery.notifications.api.dapr
+    image: "daprio/daprd:latest"
+    network_mode: "service:microdelivery.notifications.api"
+    depends_on:
+      - microdelivery.notifications.api
+
+  # Other services
   redis:
     container_name: redis
     restart: always
@@ -82,3 +103,5 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
         - "1433:1433"
+
+
