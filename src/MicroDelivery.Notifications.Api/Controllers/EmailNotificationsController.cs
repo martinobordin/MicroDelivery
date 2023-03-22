@@ -18,10 +18,14 @@ namespace MicroDelivery.Notifications.Api.Controllers
         }
 
         [HttpPost]
-        [Topic(DaprConstants.PubSub, DaprConstants.OrderSubmittedEventTopic)]
-        public ActionResult OnOrderSubmittedEvent(OrderSubmittedEvent @event)
+        [Topic(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
+        public ActionResult OnOrderSubmittedEvent(OrderSubmittedEvent orderSubmittedEvent)
         {
-            this.logger.LogInformation("Sending email notification for order {order}", @event);
+            this.logger.LogInformation("Sending email notification for order #{OrderId} - {CustomerFirstName} {CustomerLastName}", orderSubmittedEvent.OrderId, orderSubmittedEvent.CustomerFirstName, orderSubmittedEvent.CustomerLastName);
+            foreach (var orderLineItem in orderSubmittedEvent.OrderLineItems)
+            {
+                this.logger.LogDebug("Product: {ProductName} - Qty: {Quantity} - Price: {Price} - DiscountedPrice: {DiscountedPrice}", orderLineItem.ProductName, orderLineItem.Quantity, orderLineItem.Price, orderLineItem.DiscountedPrice);
+            }
             return Ok();
         }
     }

@@ -6,12 +6,12 @@ namespace MicroDelivery.Products.Api.Data
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetProductsAsync();
-        Task<Product> GetProductAsync(Guid id);
+        Task<Product> GetProductAsync(int id);
         Task<long> CountAllProductsAsync();
 
         Task<Product> CreateProductAsync(Product product);
         Task<Product> UpdateProductAsync(Product product);
-        Task<bool> DeleteProductAsync(Guid id);
+        Task<bool> DeleteProductAsync(int id);
     }
 
     public class ProductRepository : IProductRepository
@@ -32,7 +32,7 @@ namespace MicroDelivery.Products.Api.Data
             return await this.products.Find(p => true).ToListAsync();
         }
 
-        public async Task<Product> GetProductAsync(Guid id)
+        public async Task<Product> GetProductAsync(int id)
         {
             return await this.products.Find(p => p.Id == id).FirstOrDefaultAsync();
         }
@@ -54,7 +54,7 @@ namespace MicroDelivery.Products.Api.Data
             return product;
         }
 
-        public async Task<bool> DeleteProductAsync(Guid id)
+        public async Task<bool> DeleteProductAsync(int id)
         {
             var result = await this.products.DeleteOneAsync(p => p.Id == id);
             return result.IsAcknowledged && result.DeletedCount == 1;

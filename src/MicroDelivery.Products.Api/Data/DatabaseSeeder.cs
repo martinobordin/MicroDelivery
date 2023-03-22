@@ -45,12 +45,12 @@ namespace MicroDelivery.Products.Api.Data
 
         private static IEnumerable<Product> GetSampleProducts()
         {
-            yield return new Product { Id = Guid.NewGuid(), Name = "Tomato salad", Price = 8, Categories = new[] { "Salad", "Vegan", "Food" } };
-            yield return new Product { Id = Guid.NewGuid(), Name = "Margherita", Price = 6, Categories = new[] { "Pizza", "Food" } };
-            yield return new Product { Id = Guid.NewGuid(), Name = "Marinara", Price = 5, Categories = new[] { "Pizza", "Food" } };
-            yield return new Product { Id = Guid.NewGuid(), Name = "Water", Price = 2, Categories = new[] { "Beverage", "Non alcoholic" } };
-            yield return new Product { Id = Guid.NewGuid(), Name = "Tea", Price = 3, Categories = new[] { "Beverage", "Non alcoholic" } };
-            yield return new Product { Id = Guid.NewGuid(), Name = "Bier", Price = 4, Categories = new[] { "Beverage", "Alcoholic" } };
+            yield return new Product { Id = 1, Name = "Tomato salad", Price = 8, Categories = new[] { "Salad", "Vegan", "Food" } };
+            yield return new Product { Id = 2, Name = "Margherita", Price = 6, Categories = new[] { "Pizza", "Food" } };
+            yield return new Product { Id = 3, Name = "Marinara", Price = 5, Categories = new[] { "Pizza", "Food" } };
+            yield return new Product { Id = 4, Name = "Water", Price = 2, Categories = new[] { "Beverage", "Non alcoholic" } };
+            yield return new Product { Id = 5, Name = "Tea", Price = 3, Categories = new[] { "Beverage", "Non alcoholic" } };
+            yield return new Product { Id = 6, Name = "Bier", Price = 4, Categories = new[] { "Beverage", "Alcoholic" } };
         }
     }
 }

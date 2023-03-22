@@ -6,7 +6,7 @@
     <ProjectGuid>d51c92c6-e716-43c5-a9a0-070b8d9c1f8b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>microdelivery.customers.api</DockerServiceName>
+    <DockerServiceName>microdelivery.orders.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

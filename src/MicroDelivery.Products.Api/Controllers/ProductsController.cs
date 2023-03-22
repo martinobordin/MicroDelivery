@@ -31,11 +31,11 @@ namespace MicroDelivery.Products.Api.Controllers
         {
             logger.LogInformation($"{nameof(GetProducts)} called. Checking the state");
             
-            var products = await daprClient.GetStateAsync<IEnumerable<Product>>(DaprConstants.RedisStateStore, StateKey);
+            var products = await daprClient.GetStateAsync<IEnumerable<Product>>(DaprConstants.RedisStateComponentName, StateKey);
             if (products == null)
             {
                 products = await this.productRepository.GetProductsAsync();
-                await daprClient.SaveStateAsync(DaprConstants.RedisStateStore, StateKey, products, metadata: stateMetaData);
+                await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, StateKey, products, metadata: stateMetaData);
 
                 logger.LogInformation($"{nameof(GetProducts)} called. State updated");
             }
@@ -46,7 +46,7 @@ namespace MicroDelivery.Products.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct(Guid id)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProduct(int id)
         {
             var product = await this.productRepository.GetProductAsync(id);
             if (product is null)
@@ -75,7 +75,7 @@ namespace MicroDelivery.Products.Api.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Product>> DeleteProduct(Guid id)
+        public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
             await this.productRepository.DeleteProductAsync(id);
             return Ok();

@@ -1,6 +1,6 @@
 ﻿namespace MicroDelivery.Orders.Api.Requests
 {
-    public record SubmitOrderRequest(Guid CustomerId, IEnumerable<SubmitOrderLineItem> OrderLineItems );
+    public record SubmitOrderRequest(int CustomerId, IEnumerable<SubmitOrderLineItem> OrderLineItems );
 
-    public record SubmitOrderLineItem(Guid ProductId, int Quantity);
+    public record SubmitOrderLineItem(int ProductId, int Quantity);
 }

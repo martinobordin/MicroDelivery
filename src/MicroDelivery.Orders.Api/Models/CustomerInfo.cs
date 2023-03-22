@@ -1,12 +1,11 @@
-﻿namespace MicroDelivery.Customers.Api.Models
+﻿namespace MicroDelivery.Orders.Api.Models
 {
-    public class Customer
+    public class CustomerInfo
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public bool IsActive { get; set; }
+        public AddressInfo Address { get; set; } = new AddressInfo();
         public bool IsPremium { get; set; }
-        public Address Address { get; set; } = new Address();
     }
 }

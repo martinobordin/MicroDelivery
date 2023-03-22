@@ -29,7 +29,7 @@ namespace MicroDelivery.Customers.Api.Data
 
             using IServiceScope scope = serviceProvider.CreateScope();
 
-            var customerContext = scope.ServiceProvider.GetService<CustomerContext>();
+            var customerContext = scope.ServiceProvider.GetRequiredService<CustomerContext>();
             await customerContext.Database.EnsureCreatedAsync();
 
             var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
@@ -49,8 +49,8 @@ namespace MicroDelivery.Customers.Api.Data
 
         private static IEnumerable<Customer> GetSampleCustomers()
         {
-            yield return new Customer { FirstName = "Joe", LastName = "Doe", Address = new Address { AddressLine = "Main street 1", ZipCode = "123", State = "FL" } };
-            yield return new Customer { FirstName = "Jane", LastName = "Smith", Address = new Address { AddressLine = "Other road", ZipCode = "456", State = "TX" } };
+            yield return new Customer { FirstName = "Joe", LastName = "Doe", IsActive = true, IsPremium = false, Address = new Address { AddressLine = "Main street 1", ZipCode = "123", State = "FL" } };
+            yield return new Customer { FirstName = "Jane", LastName = "Smith", IsActive = true, IsPremium = true, Address = new Address { AddressLine = "Other road", ZipCode = "456", State = "TX" } };
         }
     }
 }
