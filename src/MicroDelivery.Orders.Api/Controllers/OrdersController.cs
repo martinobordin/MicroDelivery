@@ -33,10 +33,10 @@ namespace MicroDelivery.Orders.Api.Controllers
                 var productInfo = await daprClient.InvokeMethodAsync<ProductInfo>(HttpMethod.Get, DaprConstants.AppIdProducts, $"products/{orderLineItem.ProductId}");
                 var discountedPrice = customerInfo.IsPremium ? productInfo.Price * 0.5 : productInfo.Price;
                
-                orderSubmittedEventLineItems.Add(new OrderSubmittedEventLineItem(productInfo.Id, productInfo.Name, orderLineItem.Quantity, productInfo.Price, discountedPrice));
+                orderSubmittedEventLineItems.Add(new OrderSubmittedEventLineItem { ProductId = productInfo.Id, ProductName = productInfo.Name, Quantity = orderLineItem.Quantity, Price =  productInfo.Price, DiscountedPrice = discountedPrice });
             }
 
-            var @event = new OrderSubmittedEvent(Guid.NewGuid(),customerInfo.Id, customerInfo.FirstName, customerInfo.LastName, orderSubmittedEventLineItems);
+            var @event = new OrderSubmittedEvent { OrderId = Guid.NewGuid(), CustomerId = customerInfo.Id, CustomerFirstName = customerInfo.FirstName, CustomerLastName = customerInfo.LastName, CustomerEmail = customerInfo.Email, OrderLineItems = orderSubmittedEventLineItems };
             await daprClient.PublishEventAsync(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic, @event);
 
             return Accepted();

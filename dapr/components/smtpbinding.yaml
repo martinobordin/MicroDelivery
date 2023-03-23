@@ -1,0 +1,30 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: smtpbinding
+spec:
+  type: bindings.smtp
+  version: v1
+  metadata:
+  - name: host
+    value: "smtp4dev"
+  - name: port
+    value: "25"
+  #- name: user
+  #  value: "username"
+  #- name: password
+  #  value: "password"
+  #- name: skipTLSVerify
+  #  value: true|false
+  - name: emailFrom
+    value: "no-reply@microdelivery.com"
+  #- name: emailTo
+  #  value: "receiver@example.com"
+  #- name: emailCC
+  #  value: "cc@example.com"
+  #- name: emailBCC
+  #  value: "bcc@example.com"
+  #- name: subject
+  #  value: "My subject"
+  #- name: priority
+  #  value: "1"

@@ -22,9 +22,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{7FF98530-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FD417519-1D17-4753-9E05-8FF541BD5933}"
 	ProjectSection(SolutionItems) = preProject
+		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
 		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
+		dapr\components\smtpbinding.yaml = dapr\components\smtpbinding.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Orders.Api", "src\MicroDelivery.Orders.Api\MicroDelivery.Orders.Api.csproj", "{A7399230-C703-460F-B442-EC21AE69802C}"
@@ -46,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		dapr\configuration\configuration.yaml = dapr\configuration\configuration.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDelivery.Shipping.Api", "src\MicroDelivery.Shipping.Api\MicroDelivery.Shipping.Api.csproj", "{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Shipping.Api", "src\MicroDelivery.Shipping.Api\MicroDelivery.Shipping.Api.csproj", "{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

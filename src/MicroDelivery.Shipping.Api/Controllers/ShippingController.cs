@@ -1,4 +1,6 @@
 using Dapr;
+using Dapr.Client;
+using Grpc.Core;
 using MicroDelivery.Shared;
 using MicroDelivery.Shared.IntegrationEvents;
 using Microsoft.AspNetCore.Mvc;
@@ -10,21 +12,20 @@ namespace MicroDelivery.Shipping.Api.Controllers
     public class ShippingController : ControllerBase
     {
         private readonly ILogger<ShippingController> logger;
+        private readonly DaprClient daprClient;
 
-        public ShippingController(ILogger<ShippingController> logger)
+        public ShippingController(ILogger<ShippingController> logger, DaprClient daprClient)
         {
             this.logger = logger;
+            this.daprClient = daprClient;
         }
 
         [HttpPost]
         [Topic(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
-        public ActionResult OnOrderSubmittedEvent(OrderSubmittedEvent orderSubmittedEvent)
+        public async Task<ActionResult> OnOrderSubmittedEvent(OrderSubmittedEvent orderSubmittedEvent)
         {
-            this.logger.LogInformation("Shipping order #{OrderId} - {CustomerFirstName} {CustomerLastName}", orderSubmittedEvent.OrderId, orderSubmittedEvent.CustomerFirstName, orderSubmittedEvent.CustomerLastName);
-            foreach (var orderLineItem in orderSubmittedEvent.OrderLineItems)
-            {
-                this.logger.LogDebug("Product: {ProductName} - Qty: {Quantity} - Price: {Price} - DiscountedPrice: {DiscountedPrice}", orderLineItem.ProductName, orderLineItem.Quantity, orderLineItem.Price, orderLineItem.DiscountedPrice);
-            }
+            await this.daprClient.InvokeBindingAsync(DaprConstants.HttpBinding, "post", orderSubmittedEvent);
+
             return Ok();
         }
     }

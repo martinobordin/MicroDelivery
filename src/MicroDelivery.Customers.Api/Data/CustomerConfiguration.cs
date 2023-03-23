@@ -19,6 +19,11 @@ namespace MicroDelivery.Customers.Api.Data
                 .HasMaxLength(50);
 
             builder
+                .Property(x => x.Email)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder
                 .OwnsOne(x => x.Address);
         }
     }

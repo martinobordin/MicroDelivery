@@ -54,7 +54,7 @@ services:
 
   # Shipping Api & Sidecar
   microdelivery.shipping.api:
-    container_name: microdelivery.shipping.api.dapr
+    container_name: microdelivery.shipping.api
     image: ${DOCKER_REGISTRY-}microdeliveryshippingapi
     build:
       context: .
@@ -105,3 +105,31 @@ services:
         - "1433:1433"
 
 
+  smtp4dev:
+    container_name: smtp4dev
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      # Change the number before : to the port the web interface should be accessible on
+      - '5000:80'
+      # Change the number before : to the port the SMTP server should be accessible on
+      - '25:25'
+      # Change the number before : to the port the IMAP server should be accessible on
+      - '143:143'
+   # volumes:
+      # This is where smtp4dev stores the database..
+        #- smtp4dev-data:/smtp4dev
+    environment:
+      # Uncomment to customise these settings
+
+      #Specifies the server hostname. Used in auto-generated TLS certificate if enabled.
+      - ServerOptions__HostName=smtp4dev
+
+      #Locks settings from being changed by user via web interface
+      #- ServerOptions__LockSettings=true
+
+   
+      #Specifies the TLS mode to use. None=Off. StartTls=On demand if client supports STARTTLS. ImplicitTls=TLS as soon as connection is established.
+      #- ServerOptions__TlsMode=None
+
+  
