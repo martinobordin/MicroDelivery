@@ -9,6 +9,7 @@
         public static string HttpBinding = "httpbinding";
         public static string SmtpBinding = "smtpbinding";
         public static string DiscountCronBinding = "discountcronbinding";
+        public static string RedisConfigStore = "redisconfigstore";
 
         // Topics
         public const string OrderSubmittedEventTopic = "OrderSubmittedEventTopic";

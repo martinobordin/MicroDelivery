@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C9C100D4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C69F322-C6EF-4FDB-8F84-E74BA27C0294}"
 	ProjectSection(SolutionItems) = preProject
+		diagram.wsd = diagram.wsd
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
@@ -22,10 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{7FF98530-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FD417519-1D17-4753-9E05-8FF541BD5933}"
 	ProjectSection(SolutionItems) = preProject
-		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
 		dapr\components\discountcronbinding.yaml = dapr\components\discountcronbinding.yaml
+		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
+		dapr\components\redisconfigstore.yaml = dapr\components\redisconfigstore.yaml
 		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
 		dapr\components\smtpbinding.yaml = dapr\components\smtpbinding.yaml
 	EndProjectSection
@@ -51,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Shipping.Api", "src\MicroDelivery.Shipping.Api\MicroDelivery.Shipping.Api.csproj", "{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDelivery.Discount.Api", "src\MicroDelivery.Discount.Api\MicroDelivery.Discount.Api.csproj", "{8A2A0719-582F-4130-9D1B-08EE564C0D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Discount.Api", "src\MicroDelivery.Discount.Api\MicroDelivery.Discount.Api.csproj", "{8A2A0719-582F-4130-9D1B-08EE564C0D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

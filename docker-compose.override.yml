@@ -13,7 +13,8 @@ services:
       "-app-id", "microdelivery-customers-api",
       "-app-port", "80",
       "-components-path", "/components",
-      "-config", "/configuration/configuration.yaml"
+      "-config", "/configuration/configuration.yaml",
+      "-log-level", "debug"
       ]
     volumes:
       - "./dapr/components/:/components"
@@ -31,7 +32,8 @@ services:
       "-app-id", "microdelivery-products-api",
       "-app-port", "80",
       "-components-path", "/components",
-      "-config", "/configuration/configuration.yaml"
+      "-config", "/configuration/configuration.yaml",
+      "-log-level", "debug"
       ]
     volumes:
       - "./dapr/components/:/components"
@@ -48,7 +50,8 @@ services:
       "-app-id", "microdelivery-orders-api",
       "-app-port", "80",
       "-components-path", "/components",
-      "-config", "/configuration/configuration.yaml"
+      "-config", "/configuration/configuration.yaml",
+      "-log-level", "debug"
       ]
     volumes:
       - "./dapr/components/:/components"
@@ -82,7 +85,8 @@ services:
       "-app-id", "microdelivery-notifications-api",
       "-app-port", "80",
       "-components-path", "/components",
-      "-config", "/configuration/configuration.yaml"
+      "-config", "/configuration/configuration.yaml",
+      "-log-level", "debug"
       ]
     volumes:
       - "./dapr/components/:/components"
@@ -99,7 +103,8 @@ services:
       "-app-id", "microdelivery-discount-api",
       "-app-port", "80",
       "-components-path", "/components",
-      "-config", "/configuration/configuration.yaml"
+      "-config", "/configuration/configuration.yaml",
+      "-log-level", "debug"
       ]
     volumes:
       - "./dapr/components/:/components"

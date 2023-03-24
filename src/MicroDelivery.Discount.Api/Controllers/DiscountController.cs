@@ -1,7 +1,6 @@
 using Dapr.Client;
 using MicroDelivery.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MicroDelivery.Discount.Api.Controllers
 {
@@ -11,31 +10,40 @@ namespace MicroDelivery.Discount.Api.Controllers
     {
         private readonly ILogger<DiscountController> logger;
         private readonly DaprClient daprClient;
+        private readonly IConfiguration configuration;
 
-        public DiscountController(ILogger<DiscountController> logger, DaprClient daprClient)
+        public DiscountController(ILogger<DiscountController> logger, DaprClient daprClient, IConfiguration configuration)
         {
             this.logger = logger;
             this.daprClient = daprClient;
+            this.configuration = configuration;
         }
 
-        [HttpPost("DiscountCronBinding")]
-        public async Task<ActionResult> UpdateDiscountAsync()
+        [HttpPost("/discountcronbinding")]
+        public async Task<ActionResult> UpdateDiscount()
         {
+            logger.LogInformation($"Received UpdateDiscount at {DateTime.Now}");
+
+            var crazyDiscountEnabled = configuration.GetValue<bool>(DiscountConstants.CrazyDiscountEnabledKey);
+            if (!crazyDiscountEnabled)
+            {
+                logger.LogInformation($"CrazyDiscount is disabled");
+            }
+
             var random = new Random(Guid.NewGuid().GetHashCode());
             var discount = random.Next(1, 30);
 
-            logger.LogInformation($"Received UpdateDiscount {DateTime.Now} - Discount is now {discount}%");
+            logger.LogInformation($"CrazyDiscount is now {discount}%");
             
-            await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, "Discount", discount);
+            await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, DiscountConstants.CrazyDiscountValue, discount);
             return Ok();
         }
 
         [HttpGet(Name = "GetDiscount")]
         public async Task<int> GetDiscount()
         {
-            var discount = await daprClient.GetStateAsync<int>(DaprConstants.RedisStateComponentName, "Discount");
-            var decimalDiscount = discount;
-            return decimalDiscount;
+            var discount = await daprClient.GetStateAsync<int>(DaprConstants.RedisStateComponentName, DiscountConstants.CrazyDiscountValue);
+            return discount;
         }
     }
 }

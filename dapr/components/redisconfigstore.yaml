@@ -1,0 +1,9 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: redisconfigstore
+spec:
+  type: configuration.redis
+  metadata:
+  - name: redisHost
+    value: redis:6379
