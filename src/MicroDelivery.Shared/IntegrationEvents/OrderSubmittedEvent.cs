@@ -8,8 +8,8 @@
         public string CustomerLastName { get; set; }
         public string CustomerEmail { get; set; }
         public IEnumerable<OrderSubmittedEventLineItem> OrderLineItems { get; set; }
-    };
-
+        public int TotalDiscount { get; set; }
+    }
     public record OrderSubmittedEventLineItem
     {
         public int ProductId { get; set; }

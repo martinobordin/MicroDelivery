@@ -32,7 +32,8 @@ namespace MicroDelivery.Notifications.Api.Controllers
 
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Hello {orderSubmittedEvent.CustomerFirstName} {orderSubmittedEvent.CustomerLastName}<br>");
-            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedEvent.OrderId.ToString().Substring(0, 6)}</strong> has been shipped!<br><br>");
+            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedEvent.OrderId.ToString()[..6]}</strong> has been shipped.<br><br>");
+            stringBuilder.AppendLine($"Your CRAZY DISCOUNT is <strong>#{orderSubmittedEvent.TotalDiscount}%</strong>!<br><br>");
             stringBuilder.AppendLine($"Here your item(s):<br><ul>");
 
             foreach ( var item in orderSubmittedEvent.OrderLineItems )

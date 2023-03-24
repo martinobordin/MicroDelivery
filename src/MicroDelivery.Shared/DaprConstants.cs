@@ -8,6 +8,7 @@
         public const string PubSubComponentName = "pubsub";
         public static string HttpBinding = "httpbinding";
         public static string SmtpBinding = "smtpbinding";
+        public static string DiscountCronBinding = "discountcronbinding";
 
         // Topics
         public const string OrderSubmittedEventTopic = "OrderSubmittedEventTopic";
@@ -17,5 +18,7 @@
         public const string AppIdProducts = "microdelivery-products-api";
         public const string AppIdOrders = "microdelivery-orders-api";
         public const string AppIdNotifications = "microdelivery-notifications-api";
+        public const string AppIdShipping = "microdelivery-shippinh-api";
+        public const string AppIdDiscount = "microdelivery-discount-api";
     }
 }

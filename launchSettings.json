@@ -8,7 +8,8 @@
         "microdelivery.orders.api": "StartDebugging",
         "microdelivery.notifications.api": "StartDebugging",
         "microdelivery.products.api": "StartDebugging",
-        "microdelivery.shipping.api": "StartDebugging"
+        "microdelivery.shipping.api": "StartDebugging",
+        "microdelivery.discount.api": "StartDebugging"
       }
     }
   }

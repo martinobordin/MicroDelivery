@@ -49,8 +49,8 @@ namespace MicroDelivery.Customers.Api.Data
 
         private static IEnumerable<Customer> GetSampleCustomers()
         {
-            yield return new Customer { FirstName = "Joe", LastName = "Doe", Email = "joe.doe@email.com",  IsPremium = false, Address = new Address { AddressLine = "Main street 1", ZipCode = "123", State = "FL" } };
-            yield return new Customer { FirstName = "Jane", LastName = "Smith", Email = "jane.smith@email.com", IsPremium = true, Address = new Address { AddressLine = "Other road", ZipCode = "456", State = "TX" } };
+            yield return new Customer { FirstName = "Joe", LastName = "Doe", Email = "joe.doe@email.com", Address = new Address { AddressLine = "Main street 1", ZipCode = "123", State = "FL" } };
+            yield return new Customer { FirstName = "Jane", LastName = "Smith", Email = "jane.smith@email.com", Address = new Address { AddressLine = "Other road", ZipCode = "456", State = "TX" } };
         }
     }
 }

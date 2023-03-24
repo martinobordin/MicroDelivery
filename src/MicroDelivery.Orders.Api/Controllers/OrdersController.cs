@@ -20,23 +20,25 @@ namespace MicroDelivery.Orders.Api.Controllers
             this.daprClient = daprClient;
         }
 
+
         [HttpPost]
         public async Task<ActionResult> SubmitOrderAsync(SubmitOrderRequest request)
         {
             this.logger.LogInformation("SubmitOrder called");
 
             var customerInfo = await daprClient.InvokeMethodAsync<CustomerInfo>(HttpMethod.Get, DaprConstants.AppIdCustomers, $"customers/{request.CustomerId}");
-
+            var discount = await daprClient.InvokeMethodAsync<int>(HttpMethod.Get, DaprConstants.AppIdDiscount, "discount");
+           
             var orderSubmittedEventLineItems = new List<OrderSubmittedEventLineItem>();
             foreach (var orderLineItem in request.OrderLineItems)
             {
                 var productInfo = await daprClient.InvokeMethodAsync<ProductInfo>(HttpMethod.Get, DaprConstants.AppIdProducts, $"products/{orderLineItem.ProductId}");
-                var discountedPrice = customerInfo.IsPremium ? productInfo.Price * 0.5 : productInfo.Price;
+                var discountedPrice =  productInfo.Price * (discount / 100);
                
                 orderSubmittedEventLineItems.Add(new OrderSubmittedEventLineItem { ProductId = productInfo.Id, ProductName = productInfo.Name, Quantity = orderLineItem.Quantity, Price =  productInfo.Price, DiscountedPrice = discountedPrice });
             }
 
-            var @event = new OrderSubmittedEvent { OrderId = Guid.NewGuid(), CustomerId = customerInfo.Id, CustomerFirstName = customerInfo.FirstName, CustomerLastName = customerInfo.LastName, CustomerEmail = customerInfo.Email, OrderLineItems = orderSubmittedEventLineItems };
+            var @event = new OrderSubmittedEvent { OrderId = Guid.NewGuid(), CustomerId = customerInfo.Id, CustomerFirstName = customerInfo.FirstName, CustomerLastName = customerInfo.LastName, CustomerEmail = customerInfo.Email, TotalDiscount = discount, OrderLineItems = orderSubmittedEventLineItems };
             await daprClient.PublishEventAsync(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic, @event);
 
             return Accepted();

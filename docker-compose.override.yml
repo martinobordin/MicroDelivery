@@ -87,6 +87,23 @@ services:
     volumes:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
+
+# Discount Api & Sidecar
+  microdelivery.discount.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8005:80"
+  microdelivery.discount.api.dapr:
+    command: ["./daprd",
+      "-app-id", "microdelivery-discount-api",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/configuration.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
   
   # Other services
   redis:
@@ -106,4 +123,3 @@ services:
 
 volumes:
   mongo_data:
-

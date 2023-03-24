@@ -23,6 +23,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FD417519-1D17-4753-9E05-8FF541BD5933}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
+		dapr\components\discountcronbinding.yaml = dapr\components\discountcronbinding.yaml
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
 		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
@@ -49,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Shipping.Api", "src\MicroDelivery.Shipping.Api\MicroDelivery.Shipping.Api.csproj", "{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDelivery.Discount.Api", "src\MicroDelivery.Discount.Api\MicroDelivery.Discount.Api.csproj", "{8A2A0719-582F-4130-9D1B-08EE564C0D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +87,10 @@ Global
 		{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2A0719-582F-4130-9D1B-08EE564C0D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2A0719-582F-4130-9D1B-08EE564C0D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2A0719-582F-4130-9D1B-08EE564C0D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2A0719-582F-4130-9D1B-08EE564C0D33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +105,7 @@ Global
 		{1B9B835E-CE5D-4F53-BD2B-3367B367C78B} = {C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}
 		{EB21E9B5-E5F4-4665-BF69-BAB729778C24} = {7FF98530-3BFA-4622-A540-54ED603EB90F}
 		{B50DD663-09B2-4A3A-9C91-AE81A7701CA1} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
+		{8A2A0719-582F-4130-9D1B-08EE564C0D33} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A2E0637-8C6F-4B9F-A195-8E7BA112BBE1}
