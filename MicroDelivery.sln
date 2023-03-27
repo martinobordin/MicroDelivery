@@ -11,8 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C9C100D4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C69F322-C6EF-4FDB-8F84-E74BA27C0294}"
 	ProjectSection(SolutionItems) = preProject
-		diagram.wsd = diagram.wsd
 		Directory.Packages.props = Directory.Packages.props
+		diagram.xml = diagram.xml
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection

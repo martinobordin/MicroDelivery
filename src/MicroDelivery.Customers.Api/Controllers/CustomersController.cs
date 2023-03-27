@@ -31,11 +31,11 @@ namespace MicroDelivery.Customers.Api.Controllers
         {
             logger.LogInformation($"{nameof(GetCustomers)} called. Checking the state");
 
-            var customers = await daprClient.GetStateAsync<IEnumerable<Customer>>(DaprConstants.RedisStateComponentName, StateKey);
+            var customers = await daprClient.GetStateAsync<IEnumerable<Customer>>(DaprConstants.MongoStateComponentName, StateKey);
             if (customers == null)
             {
                 customers = await this.customerRepository.GetCustomersAsync();
-                await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, StateKey, customers, metadata: stateMetaData);
+                await daprClient.SaveStateAsync(DaprConstants.MongoStateComponentName, StateKey, customers, metadata: stateMetaData);
 
                 logger.LogInformation($"{nameof(GetCustomers)} called. State updated");
             }
