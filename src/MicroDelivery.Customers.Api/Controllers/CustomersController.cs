@@ -29,17 +29,7 @@ namespace MicroDelivery.Customers.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<Customer>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            logger.LogInformation($"{nameof(GetCustomers)} called. Checking the state");
-
-            var customers = await daprClient.GetStateAsync<IEnumerable<Customer>>(DaprConstants.MongoStateComponentName, StateKey);
-            if (customers == null)
-            {
-                customers = await this.customerRepository.GetCustomersAsync();
-                await daprClient.SaveStateAsync(DaprConstants.MongoStateComponentName, StateKey, customers, metadata: stateMetaData);
-
-                logger.LogInformation($"{nameof(GetCustomers)} called. State updated");
-            }
-
+            var customers = await GetCustomersFromCache();
             return Ok(customers);
         }
 
@@ -48,13 +38,14 @@ namespace MicroDelivery.Customers.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer(int id)
         {
-            var product = await this.customerRepository.GetCustomerAsync(id);
-            if (product is null)
+            var customers = await GetCustomersFromCache();
+            var customer = customers?.FirstOrDefault(x => x.Id == id);
+            if (customer is null)
             {
                 return NotFound();
             }
 
-            return Ok(product);
+            return Ok(customer);
         }
 
         [HttpPost]
@@ -62,6 +53,7 @@ namespace MicroDelivery.Customers.Api.Controllers
         public async Task<ActionResult<Customer>> CreateCustomer(Customer product)
         {
             await this.customerRepository.CreateCustomerAsync(product);
+            await ClearCustomersCache();
             return CreatedAtAction(nameof(GetCustomer), new { id = product.Id }, product);
         }
 
@@ -70,6 +62,7 @@ namespace MicroDelivery.Customers.Api.Controllers
         public async Task<ActionResult<Customer>> UpdateProduct(Customer product)
         {
             await this.customerRepository.UpdateCustomerAsync(product);
+            await ClearCustomersCache();
             return Ok(product);
         }
 
@@ -78,7 +71,29 @@ namespace MicroDelivery.Customers.Api.Controllers
         public async Task<ActionResult<Customer>> DeleteProduct(int id)
         {
             await this.customerRepository.DeleteCustomerAsync(id);
+            await ClearCustomersCache();
             return Ok();
+        }
+
+        private async Task<IEnumerable<Customer>> GetCustomersFromCache()
+        {
+            logger.LogInformation($"{nameof(GetCustomersFromCache)} called. Checking the state");
+
+            var customers = await daprClient.GetStateAsync<IEnumerable<Customer>>(DaprConstants.MongoStateComponentName, StateKey);
+            if (customers == null)
+            {
+                customers = await this.customerRepository.GetCustomersAsync();
+                await daprClient.SaveStateAsync(DaprConstants.MongoStateComponentName, StateKey, customers, metadata: stateMetaData);
+
+                logger.LogInformation($"{nameof(GetCustomersFromCache)} called. State updated");
+            }
+
+            return customers;
+        }
+
+        private async Task ClearCustomersCache()
+        {
+            await daprClient.DeleteStateAsync(DaprConstants.MongoStateComponentName, StateKey);
         }
     }
 }
