@@ -1,15 +1,10 @@
 apiVersion: dapr.io/v1alpha1
 kind: Configuration
 metadata:
-  name: config
+  name: daprConfig
+  namespace: default
 spec:
-  mtls:
-    enabled: false
   tracing:
-    enabled: true
-    exporterType: zipkin
     samplingRate: "1"
-    expandParams: true
-    includeBody: true
     zipkin:
-      endpointAddress: "http://zipkin:9411/api/v2/spans"    
+      endpointAddress: "http://zipkin:9411/api/v2/spans"

@@ -129,4 +129,6 @@ services:
     restart: always
 
   zipkin:
+    container_name: zipkin
     image: "openzipkin/zipkin"
+    restart: always
