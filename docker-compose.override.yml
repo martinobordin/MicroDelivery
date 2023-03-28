@@ -147,7 +147,7 @@ services:
       - ServerOptions__HostName=smtp4dev
  
   zipkin:
-    ports:
+    ports: 
       - "9411:9411"
 
 volumes:
