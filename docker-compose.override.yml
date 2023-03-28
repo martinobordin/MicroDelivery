@@ -145,6 +145,10 @@ services:
       - '143:143'
     environment:
       - ServerOptions__HostName=smtp4dev
+ 
+  zipkin:
+    ports:
+      - "9411:9411"
 
 volumes:
   mongo_data:
