@@ -4,6 +4,7 @@ using Grpc.Core;
 using MicroDelivery.Shared;
 using MicroDelivery.Shared.IntegrationEvents;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MicroDelivery.Shipping.Api.Controllers
 {
@@ -21,10 +22,19 @@ namespace MicroDelivery.Shipping.Api.Controllers
         }
 
         [HttpPost]
-        [Topic(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
-        public async Task<ActionResult> OnOrderSubmittedEvent(OrderSubmittedEvent orderSubmittedEvent)
+        [Topic(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
+        public async Task<ActionResult> OnOrderSubmittedEvent(OrderSubmittedIntegrationEvent orderSubmittedIntegrationEvent)
         {
-            await this.daprClient.InvokeBindingAsync(DaprConstants.HttpBinding, "post", orderSubmittedEvent);
+            this.logger.LogInformation("Shipping order #{OrderId} to {CustomerFirstName} {CustomerLastName} ({CustomerEmail})",
+             orderSubmittedIntegrationEvent.OrderId,
+             orderSubmittedIntegrationEvent.CustomerFirstName,
+             orderSubmittedIntegrationEvent.CustomerLastName,
+             orderSubmittedIntegrationEvent.CustomerEmail);
+
+            await this.daprClient.InvokeBindingAsync(DaprConstants.HttpBinding, "post", orderSubmittedIntegrationEvent);
+
+            var orderShippedIntegrationEvent = new OrderShippedIntegrationEvent() { OrderId = orderSubmittedIntegrationEvent.OrderId, ShippedAtUtc = DateTime.UtcNow };
+            await daprClient.PublishEventAsync(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderShippedEventTopic, orderShippedIntegrationEvent);
 
             return Ok();
         }

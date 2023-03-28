@@ -43,6 +43,7 @@ services:
   microdelivery.orders.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__ConnectionString=mongodb://mongo:27017
     ports:
       - "8002:80"
   microdelivery.orders.api.dapr:
@@ -135,28 +136,7 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
     ports:
       - "15672:15672"
-      - "5672:5672"
-        
-  eventstore:
-    environment:
-      - EVENTSTORE_CLUSTER_SIZE=1
-      - EVENTSTORE_RUN_PROJECTIONS=All
-      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
-      - EVENTSTORE_EXT_TCP_PORT=1113
-      - EVENTSTORE_HTTP_PORT=2113
-      - EVENTSTORE_INSECURE=true
-      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
-      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
-    ports:
-      - "1113:1113"
-      - "2113:2113"
-    volumes:
-      - type: volume
-        source: eventstore-volume-data
-        target: /var/lib/eventstore
-      - type: volume
-        source: eventstore-volume-logs
-        target: /var/log/eventstore
+      - "5672:5672"        
  
   smtp4dev:
     ports:

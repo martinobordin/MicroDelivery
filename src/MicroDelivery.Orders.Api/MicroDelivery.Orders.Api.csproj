@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,7 +13,7 @@
     <PackageReference Include="Dapr.AspNetCore" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="EventStore.Client.Grpc.Streams" />
+    <PackageReference Include="MongoDB.Driver" />
   </ItemGroup>
 
   <ItemGroup>

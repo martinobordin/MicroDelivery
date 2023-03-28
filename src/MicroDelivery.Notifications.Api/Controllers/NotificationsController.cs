@@ -21,22 +21,22 @@ namespace MicroDelivery.Notifications.Api.Controllers
         }
 
         [HttpPost]
-        [Topic(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
-        public async Task<ActionResult> OnOrderSubmittedEventAsync(OrderSubmittedEvent orderSubmittedEvent)
+        [Topic(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
+        public async Task<ActionResult> OnOrderSubmittedEventAsync(OrderSubmittedIntegrationEvent orderSubmittedIntegrationEvent)
         {
             this.logger.LogInformation("Sending notification for order #{OrderId} to {CustomerFirstName} {CustomerLastName} ({CustomerEmail})",
-                orderSubmittedEvent.OrderId,
-                orderSubmittedEvent.CustomerFirstName,
-                orderSubmittedEvent.CustomerLastName,
-                orderSubmittedEvent.CustomerEmail);
+                orderSubmittedIntegrationEvent.OrderId,
+                orderSubmittedIntegrationEvent.CustomerFirstName,
+                orderSubmittedIntegrationEvent.CustomerLastName,
+                orderSubmittedIntegrationEvent.CustomerEmail);
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"Hello {orderSubmittedEvent.CustomerFirstName} {orderSubmittedEvent.CustomerLastName}<br>");
-            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedEvent.OrderId.ToString()[..6]}</strong> has been shipped.<br><br>");
-            stringBuilder.AppendLine($"Your CRAZY DISCOUNT is <strong>#{orderSubmittedEvent.TotalDiscount}%</strong>!<br><br>");
+            stringBuilder.AppendLine($"Hello {orderSubmittedIntegrationEvent.CustomerFirstName} {orderSubmittedIntegrationEvent.CustomerLastName}<br>");
+            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedIntegrationEvent.OrderId.ToString()[..6]}</strong> has been shipped.<br><br>");
+            stringBuilder.AppendLine($"Your CRAZY DISCOUNT is <strong>#{orderSubmittedIntegrationEvent.TotalDiscount}%</strong>!<br><br>");
             stringBuilder.AppendLine($"Here your item(s):<br><ul>");
 
-            foreach ( var item in orderSubmittedEvent.OrderLineItems )
+            foreach ( var item in orderSubmittedIntegrationEvent.OrderLineItems )
             {
                 stringBuilder.AppendLine($"<li>{item.Quantity} {item.ProductName} at <s>{item.Price.ToString("N2")}$</s> {item.DiscountedPrice.ToString("N2")}$</li>");
             }
@@ -48,7 +48,7 @@ namespace MicroDelivery.Notifications.Api.Controllers
             var message = stringBuilder.ToString();
             var metadata = new Dictionary<string, string>
             {
-                { "emailTo", orderSubmittedEvent.CustomerEmail },
+                { "emailTo", orderSubmittedIntegrationEvent.CustomerEmail },
                 { "subject", $"Order Shipped!" },
                 { "priority", "1" }
             };

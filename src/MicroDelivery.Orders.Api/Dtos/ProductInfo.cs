@@ -1,4 +1,4 @@
-﻿namespace MicroDelivery.Orders.Api.Models
+﻿namespace MicroDelivery.Orders.Api.Dtos
 {
     public class ProductInfo
     {

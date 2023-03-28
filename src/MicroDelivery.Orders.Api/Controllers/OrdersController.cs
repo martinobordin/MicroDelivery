@@ -1,12 +1,13 @@
+using Dapr;
 using Dapr.Client;
-using EventStore.Client;
+using MicroDelivery.Orders.Api.Data;
+using MicroDelivery.Orders.Api.Dtos;
 using MicroDelivery.Orders.Api.Models;
 using MicroDelivery.Orders.Api.Requests;
 using MicroDelivery.Shared;
 using MicroDelivery.Shared.IntegrationEvents;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using static EventStore.Client.StreamMessage;
+using System.Net;
 
 namespace MicroDelivery.Orders.Api.Controllers
 {
@@ -17,63 +18,128 @@ namespace MicroDelivery.Orders.Api.Controllers
         private const string StreamName = "Orders";
         private readonly ILogger<OrdersController> logger;
         private readonly DaprClient daprClient;
-        private readonly EventStoreClient eventStoreClient;
+        private readonly IOrderRepository orderRepository;
 
-        public OrdersController(ILogger<OrdersController> logger, DaprClient daprClient, EventStoreClient eventStoreClient)
+        public OrdersController(ILogger<OrdersController> logger, DaprClient daprClient, IOrderRepository orderRepository)
         {
             this.logger = logger;
             this.daprClient = daprClient;
-            this.eventStoreClient = eventStoreClient;
+            this.orderRepository = orderRepository;
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult> SubmitOrderAsync(SubmitOrderRequest request)
+        [HttpPost("Submit")]
+        [ProducesResponseType(typeof(Order), (int)HttpStatusCode.Created)]
+        public async Task<ActionResult> SubmitOrder(SubmitOrderRequest request)
         {
             this.logger.LogInformation("SubmitOrder called");
 
             var customerInfo = await daprClient.InvokeMethodAsync<CustomerInfo>(HttpMethod.Get, DaprConstants.AppIdCustomers, $"customers/{request.CustomerId}");
-            var discount = await daprClient.InvokeMethodAsync<int>(HttpMethod.Get, DaprConstants.AppIdDiscount, "discount");
-
-            var orderSubmittedEventLineItems = new List<OrderSubmittedEventLineItem>();
-            foreach (var orderLineItem in request.OrderLineItems)
+            if (customerInfo is null)
             {
-                var productInfo = await daprClient.InvokeMethodAsync<ProductInfo>(HttpMethod.Get, DaprConstants.AppIdProducts, $"products/{orderLineItem.ProductId}");
-                var discountedPrice = discount == 0 ? productInfo.Price : productInfo.Price * (discount / 100);
-
-                orderSubmittedEventLineItems.Add(new OrderSubmittedEventLineItem { ProductId = productInfo.Id, ProductName = productInfo.Name, Quantity = orderLineItem.Quantity, Price = productInfo.Price, DiscountedPrice = discountedPrice });
+                throw new Exception($"Customer {request.CustomerId} not found");
             }
 
-            var @event = new OrderSubmittedEvent { OrderId = Guid.NewGuid(), CustomerId = customerInfo.Id, CustomerFirstName = customerInfo.FirstName, CustomerLastName = customerInfo.LastName, CustomerEmail = customerInfo.Email, TotalDiscount = discount, OrderLineItems = orderSubmittedEventLineItems };
+            var discount = await daprClient.InvokeMethodAsync<int>(HttpMethod.Get, DaprConstants.AppIdDiscount, "discount");
 
-            var utf8Bytes = JsonSerializer.SerializeToUtf8Bytes(@event);
-            var eventData = new EventData(Uuid.NewUuid(),
-                               nameof(OrderSubmittedEvent),
-                               utf8Bytes.AsMemory());
+            var order = new Order
+            {
+                CustomerId = customerInfo.Id,
+                CustomerFirstName = customerInfo.FirstName,
+                CustomerLastName = customerInfo.LastName,
+                CustomerEmail = customerInfo.Email,
+                TotalDiscount = discount
+            };
 
-            var writeResult = await this.eventStoreClient
-                            .AppendToStreamAsync($"{StreamName}-{@event.OrderId}",
-                                                  StreamState.Any,
-                                                  new[] { eventData });
+            var orderLineItems = new List<OrderLineItem>();
+            foreach (var requestOrderLineItem in request.OrderLineItems)
+            {
+                var productInfo = await daprClient.InvokeMethodAsync<ProductInfo>(HttpMethod.Get, DaprConstants.AppIdProducts, $"products/{requestOrderLineItem.ProductId}");
+                if (productInfo is null)
+                {
+                    throw new Exception($"Product {requestOrderLineItem.ProductId} not found");
+                }
 
-            await daprClient.PublishEventAsync(DaprConstants.PubSubComponentName, DaprConstants.OrderSubmittedEventTopic, @event);
+                var discountedPrice = discount == 0 ? productInfo.Price : productInfo.Price * (discount / 100);
 
-            return Accepted();
+                var orderLineItem = new OrderLineItem
+                {
+                    ProductId = productInfo.Id,
+                    ProductName = productInfo.Name,
+                    Price = productInfo.Price,
+                    DiscountedPrice = discountedPrice,
+                    Quantity = requestOrderLineItem.Quantity
+                };
+                orderLineItems.Add(orderLineItem);
+            }
+
+            order.OrderLineItems = orderLineItems;
+            await orderRepository.CreateOrderAsync(order);
+
+            this.logger.LogInformation("Order created");
+
+            var orderSubmittedIntegrationEvent = new OrderSubmittedIntegrationEvent
+            {
+                OrderId = order.Id,
+                CustomerId = order.CustomerId,
+                CustomerFirstName = order.CustomerFirstName,
+                CustomerLastName = order.CustomerLastName,
+                CustomerEmail = order.CustomerEmail,
+                TotalDiscount = order.TotalDiscount,
+                OrderLineItems = order.OrderLineItems.Select(oli => new OrderSubmittedIntegrationEventLineItem { ProductId = oli.ProductId, ProductName = oli.ProductName, Quantity = oli.Quantity, Price = oli.Price, DiscountedPrice = oli.DiscountedPrice })
+            };
+
+            await daprClient.PublishEventAsync(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderSubmittedEventTopic, orderSubmittedIntegrationEvent);
+
+            this.logger.LogInformation("OrderSubmittedEvent published");
+
+            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+        }
+
+        [HttpPost("Ship")]
+        [Topic(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderShippedEventTopic)]
+        public async Task<ActionResult> OnOrderShippedEvent(OrderShippedIntegrationEvent orderShippedIntegrationEvent)
+        {
+            this.logger.LogInformation("OnOrderShippedEvent called");
+
+            var order = await this.orderRepository.GetOrderAsync(orderShippedIntegrationEvent.OrderId);
+            if (order is null)
+            {
+                return NotFound();
+            }
+
+            order.ShippedAtUtc = orderShippedIntegrationEvent.ShippedAtUtc;
+            await this.orderRepository.UpdateOrderAsync(order);
+
+            return Ok();
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetOrder(Guid orderId)
+        [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            var streamResult = this.eventStoreClient.ReadStreamAsync(
-            Direction.Forwards,
-                                                       $"{StreamName}-{orderId}",
-                                                       StreamPosition.Start);
-            await foreach (var item in streamResult)
+            var orders = await this.orderRepository.GetOrdersAsync();
+            return Ok(orders);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrder(Guid id)
+        {
+            var order = await this.orderRepository.GetOrderAsync(id);
+            if (order is null)
             {
-                var eventType = item.Event.EventType;
-                var order = JsonSerializer.Deserialize(item.Event.Data.Span, typeof(OrderSubmittedEvent));
+                return NotFound();
             }
 
+            return Ok(order);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Order>> DeleteProduct(Guid id)
+        {
+            await this.orderRepository.DeleteOrderAsync(id);
             return Ok();
         }
     }

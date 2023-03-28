@@ -1,16 +1,16 @@
 ﻿namespace MicroDelivery.Shared.IntegrationEvents
 {
-    public record OrderSubmittedEvent
+    public record OrderSubmittedIntegrationEvent : BaseIntegrationEvent
     {
         public Guid OrderId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string CustomerEmail { get; set; }
-        public IEnumerable<OrderSubmittedEventLineItem> OrderLineItems { get; set; }
+        public IEnumerable<OrderSubmittedIntegrationEventLineItem> OrderLineItems { get; set; }
         public int TotalDiscount { get; set; }
     }
-    public record OrderSubmittedEventLineItem
+    public record OrderSubmittedIntegrationEventLineItem
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }

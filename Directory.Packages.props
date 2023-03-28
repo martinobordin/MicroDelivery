@@ -9,6 +9,5 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageVersion Include="MongoDB.Driver" Version="2.19.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageVersion Include="EventStore.Client.Grpc.Streams" Version="22.0.0" />
   </ItemGroup>
 </Project>

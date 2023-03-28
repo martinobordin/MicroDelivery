@@ -1,4 +1,4 @@
-﻿namespace MicroDelivery.Orders.Api.Models
+﻿namespace MicroDelivery.Orders.Api.Dtos
 {
     public class CustomerInfo
     {
@@ -6,6 +6,6 @@
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public AddressInfo Address { get; set; } = new AddressInfo();        
+        public AddressInfo Address { get; set; } = new AddressInfo();
     }
 }

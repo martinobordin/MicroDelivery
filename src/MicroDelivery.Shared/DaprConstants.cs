@@ -3,7 +3,7 @@
     public class DaprConstants
     {
         // Components
-        public const string PubSubComponentName = "rabbitmqpubsub";
+        public const string RabbitMqPubSubComponentName = "rabbitmqpubsub";
         public const string RedisStateComponentName = "redisstore";
         public const string MongoStateComponentName = "mongostore";
         public static string HttpBinding = "httpbinding";

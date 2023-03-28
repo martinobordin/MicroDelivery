@@ -45,6 +45,8 @@ services:
     depends_on:
       - microdelivery.customers.api
       - microdelivery.products.api
+      - mongo
+      - rabbit
   microdelivery.orders.api.dapr:
     container_name: microdelivery.orders.api.dapr
     image: "daprio/daprd:latest"
@@ -59,6 +61,8 @@ services:
     build:
       context: .
       dockerfile: src/MicroDelivery.Shipping.Api/Dockerfile
+    depends_on:
+      - rabbit
   microdelivery.shipping.api.dapr:
     container_name: microdelivery.shipping.api.dapr
     image: "daprio/daprd:latest"
@@ -73,6 +77,8 @@ services:
     build:
       context: .
       dockerfile: src/MicroDelivery.Notifications.Api/Dockerfile
+    depends_on:
+      - rabbit
   microdelivery.notifications.api.dapr:
     container_name: microdelivery.notifications.api.dapr
     image: "daprio/daprd:latest"
@@ -87,6 +93,8 @@ services:
     build:
       context: .
       dockerfile: src/MicroDelivery.Discount.Api/Dockerfile
+    depends_on:
+      - redis
   microdelivery.discount.api.dapr:
     container_name: microdelivery.discount.api.dapr
     image: "daprio/daprd:latest"
@@ -114,11 +122,6 @@ services:
     container_name: rabbit  
     image: "rabbitmq:3-management"
     restart: always
-
-  eventstore:
-    container_name: eventstore
-    restart: always
-    image: eventstore/eventstore:latest
 
   smtp4dev:
     container_name: smtp4dev
