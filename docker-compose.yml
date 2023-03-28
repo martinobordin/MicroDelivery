@@ -99,33 +99,28 @@ services:
     container_name: redis
     restart: always
     image: redis:alpine
-    ports:
-      - 6379:6379
   
   mongo:
     container_name: mongo
     restart: always
     image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
 
   sqlserver:
     container_name: sqlserver
     restart: always
     image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-        - "1433:1433"
 
+  rabbit:
+    container_name: rabbit  
+    image: "rabbitmq:3-management"
+    restart: always
+
+  eventstore:
+    container_name: eventstore
+    restart: always
+    image: eventstore/eventstore:latest
 
   smtp4dev:
     container_name: smtp4dev
     image: rnwood/smtp4dev:v3
     restart: always
-    ports:
-      - '5000:80'
-      - '25:25'
-      - '143:143'
-    environment:
-      - ServerOptions__HostName=smtp4dev

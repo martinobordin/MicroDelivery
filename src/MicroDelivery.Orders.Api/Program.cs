@@ -1,6 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddEventStoreClient(new Uri(builder.Configuration.GetConnectionString("EventStore")));
 
 builder.Services.AddControllers().AddDapr();
 

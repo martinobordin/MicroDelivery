@@ -1,0 +1,24 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: rabbitmqpubsub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "amqp://rabbit:5672"
+  - name: protocol
+    value: amqp  
+  - name: hostname
+    value: rabbit 
+  - name: username
+    value: guest
+  - name: password
+    value: guest 
+  - name: durable
+    value: true
+  - name: deletedWhenUnused
+    value: false
+  - name: autoAck
+    value: false
