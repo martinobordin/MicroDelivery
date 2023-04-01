@@ -1,0 +1,23 @@
+@hostname = localhost
+@port = 8002
+@host = http://{{hostname}}:{{port}}
+@contentType = application/json
+
+
+###  Submit a new order
+POST {{host}}/Orders/Submit
+Content-Type: {{contentType}}
+
+{
+  "customerId": 1,
+  "orderLineItems": [
+    {
+      "productId": 1,
+      "quantity": 3
+    },
+     {
+      "productId": 2,
+      "quantity": 3
+    }
+  ]
+}

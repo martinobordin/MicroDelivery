@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Customers.Api
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}"
+	ProjectSection(SolutionItems) = preProject
+		http\customers.http = http\customers.http
+		http\orders.http = http\orders.http
+		http\products.http = http\products.http
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C69F322-C6EF-4FDB-8F84-E74BA27C0294}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,15 +25,20 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Products.Api", "src\MicroDelivery.Products.Api\MicroDelivery.Products.Api.csproj", "{A872B750-562C-4BEE-AFE6-F5FC91EA8A9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{7FF98530-3BFA-4622-A540-54ED603EB90F}"
+	ProjectSection(SolutionItems) = preProject
+		src\MicroDelivery.Customers.Api\secrets.json = src\MicroDelivery.Customers.Api\secrets.json
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FD417519-1D17-4753-9E05-8FF541BD5933}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\discountcronbinding.yaml = dapr\components\discountcronbinding.yaml
 		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
+		dapr\components\localsecretstore.yaml = dapr\components\localsecretstore.yaml
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
-		dapr\components\redisconfigstore.yaml = dapr\components\redisconfigstore.yaml
 		dapr\components\rabbitpubsub.yaml = dapr\components\rabbitpubsub.yaml
+		dapr\components\redisconfigstore.yaml = dapr\components\redisconfigstore.yaml
 		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
+		dapr\components\secrets.json = dapr\components\secrets.json
 		dapr\components\smtpbinding.yaml = dapr\components\smtpbinding.yaml
 	EndProjectSection
 EndProject
@@ -37,12 +47,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Notifications.Api", "src\MicroDelivery.Notifications.Api\MicroDelivery.Notifications.Api.csproj", "{217CFEAD-7169-402C-98D4-4E57172B3619}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Shared", "src\MicroDelivery.Shared\MicroDelivery.Shared.csproj", "{E302652B-ACF8-46A9-8F77-F9C0FADED0BE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{1B9B835E-CE5D-4F53-BD2B-3367B367C78B}"
-	ProjectSection(SolutionItems) = preProject
-		tests\http\customers.http = tests\http\customers.http
-		tests\http\products.http = tests\http\products.http
-	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D51C92C6-E716-43C5-A9A0-070B8D9C1F8B}"
 EndProject
@@ -104,7 +108,6 @@ Global
 		{A7399230-C703-460F-B442-EC21AE69802C} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
 		{217CFEAD-7169-402C-98D4-4E57172B3619} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
 		{E302652B-ACF8-46A9-8F77-F9C0FADED0BE} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
-		{1B9B835E-CE5D-4F53-BD2B-3367B367C78B} = {C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}
 		{EB21E9B5-E5F4-4665-BF69-BAB729778C24} = {7FF98530-3BFA-4622-A540-54ED603EB90F}
 		{B50DD663-09B2-4A3A-9C91-AE81A7701CA1} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}
 		{8A2A0719-582F-4130-9D1B-08EE564C0D33} = {251B5D9F-A8FF-4C1F-BFCE-8D4B29319F13}

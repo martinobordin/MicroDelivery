@@ -6,10 +6,11 @@
         public const string RabbitMqPubSubComponentName = "rabbitmqpubsub";
         public const string RedisStateComponentName = "redisstore";
         public const string MongoStateComponentName = "mongostore";
-        public static string HttpBinding = "httpbinding";
-        public static string SmtpBinding = "smtpbinding";
-        public static string DiscountCronBinding = "discountcronbinding";
-        public static string RedisConfigStore = "redisconfigstore";
+        public const string HttpBinding = "httpbinding";
+        public const string SmtpBinding = "smtpbinding";
+        public const string DiscountCronBinding = "discountcronbinding";
+        public const string RedisConfigStore = "redisconfigstore";
+        public const string LocalSecretStore = "localsecretstore";
 
         // Topics
         public const string OrderSubmittedEventTopic = "OrderSubmittedEventTopic";
@@ -22,5 +23,7 @@
         public const string AppIdNotifications = "microdelivery-notifications-api";
         public const string AppIdShipping = "microdelivery-shippinh-api";
         public const string AppIdDiscount = "microdelivery-discount-api";
+
+
     }
 }

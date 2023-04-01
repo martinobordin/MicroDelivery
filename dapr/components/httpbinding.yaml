@@ -7,4 +7,12 @@ spec:
   version: v1
   metadata:
   - name: url
-    value: http://echorestbot.azurewebsites.net/
+    value: http://echorestbot.azurewebsites.net/microdelivery
+  - name: securityToken
+    secretKeyRef:
+      name: httpbindingtoken
+      key: httpbindingtoken
+  - name: securityTokenHeader
+    value: "Authorization"
+auth:
+  secretStore: localsecretstore
