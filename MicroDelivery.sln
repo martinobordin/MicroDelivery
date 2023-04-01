@@ -25,9 +25,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Products.Api", "src\MicroDelivery.Products.Api\MicroDelivery.Products.Api.csproj", "{A872B750-562C-4BEE-AFE6-F5FC91EA8A9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{7FF98530-3BFA-4622-A540-54ED603EB90F}"
-	ProjectSection(SolutionItems) = preProject
-		src\MicroDelivery.Customers.Api\secrets.json = src\MicroDelivery.Customers.Api\secrets.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{FD417519-1D17-4753-9E05-8FF541BD5933}"
 	ProjectSection(SolutionItems) = preProject

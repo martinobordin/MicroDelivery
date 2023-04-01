@@ -1,7 +1,11 @@
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using MicroDelivery.Products.Api.Data;
+using MicroDelivery.Shared;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddDaprSecretStore(DaprConstants.LocalSecretStore, new DaprClientBuilder().Build(), new[] { ":" });
 
 // Add services to the container.
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();

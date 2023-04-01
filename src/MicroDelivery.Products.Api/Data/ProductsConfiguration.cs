@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MicroDelivery.Customers.Api.Data
+namespace MicroDelivery.Products.Api.Data
 {
     public class ProductsConfiguration : IEntityTypeConfiguration<Product>
     {

@@ -20,7 +20,7 @@ namespace MicroDelivery.Orders.Api.Data
 
         public OrdersRepository(IConfiguration configuration)
         {
-            var clientSettings = MongoClientSettings.FromConnectionString(configuration.GetValue<string>("MongoDb:ConnectionString"));
+            var clientSettings = MongoClientSettings.FromConnectionString(configuration.GetConnectionString("MongoDb"));
             var client = new MongoClient(clientSettings);
             var database = client.GetDatabase(configuration.GetValue<string>("MongoDb:DatabaseName"));
 
