@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicroDelivery.Customers.Api.Data
 {
-    public interface ICustomerRepository
+    public interface ICustomersRepository
     {
         Task<IEnumerable<Customer>> GetCustomersAsync();
         Task<Customer?> GetCustomerAsync(int id);
@@ -13,11 +13,11 @@ namespace MicroDelivery.Customers.Api.Data
         Task<Customer> UpdateCustomerAsync(Customer customer);
         Task<bool> DeleteCustomerAsync(int id);
     }
-    public class CustomerRepository : ICustomerRepository
+    public class CustomersRepository : ICustomersRepository
     {
-        private readonly CustomerContext customerContext;
+        private readonly CustomersContext customerContext;
 
-        public CustomerRepository(CustomerContext customerContext)
+        public CustomersRepository(CustomersContext customerContext)
         {
             this.customerContext = customerContext;
         }

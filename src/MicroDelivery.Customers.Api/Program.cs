@@ -8,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDaprSecretStore(DaprConstants.LocalSecretStore, new DaprClientBuilder().Build(), new[] { ":" });
 
 // Add services to the container.
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomersRepository, CustomersRepository>();
 builder.Services.AddHostedService<DatabaseSeeder>();
 
-builder.Services.AddDbContext<CustomerContext>(options =>
+builder.Services.AddDbContext<CustomersContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("SqlServer");
     options

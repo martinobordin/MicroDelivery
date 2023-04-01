@@ -1,10 +1,20 @@
 using MicroDelivery.Products.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddHostedService<DatabaseSeeder>();
+
+builder.Services.AddDbContext<ProductsContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+    options
+        .UseNpgsql(connectionString, opt => opt.EnableRetryOnFailure(3))
+        .EnableDetailedErrors(true)
+        .EnableSensitiveDataLogging(true);
+});
 
 builder.Services.AddControllers().AddDapr();
 

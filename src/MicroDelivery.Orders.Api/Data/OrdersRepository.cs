@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace MicroDelivery.Orders.Api.Data
 {
-    public interface IOrderRepository
+    public interface IOrdersRepository
     {
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<Order> GetOrderAsync(Guid id);
@@ -14,11 +14,11 @@ namespace MicroDelivery.Orders.Api.Data
         Task<bool> DeleteOrderAsync(Guid id);
     }
 
-    public class OrderRepository : IOrderRepository
+    public class OrdersRepository : IOrdersRepository
     {
         private readonly IMongoCollection<Order> orders;
 
-        public OrderRepository(IConfiguration configuration)
+        public OrdersRepository(IConfiguration configuration)
         {
             var clientSettings = MongoClientSettings.FromConnectionString(configuration.GetValue<string>("MongoDb:ConnectionString"));
             var client = new MongoClient(clientSettings);

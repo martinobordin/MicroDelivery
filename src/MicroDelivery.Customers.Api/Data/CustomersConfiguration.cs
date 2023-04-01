@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MicroDelivery.Customers.Api.Data
 {
-    public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+    public class CustomersConfiguration : IEntityTypeConfiguration<Customer>
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {

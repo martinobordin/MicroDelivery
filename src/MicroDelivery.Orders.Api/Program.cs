@@ -3,7 +3,7 @@ using MicroDelivery.Orders.Api.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 
 builder.Services.AddControllers().AddDapr();
 

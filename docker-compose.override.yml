@@ -128,6 +128,25 @@ services:
         ACCEPT_EULA: "Y"
    ports:
         - "1433:1433"
+
+  postgres:
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin12345
+      - POSTGRES_DB=ProductsDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  
+  pgadmin:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin12345
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
   
   rabbit:
     environment:
@@ -152,5 +171,5 @@ services:
 
 volumes:
   mongo_data:
-  eventstore-volume-data:
-  eventstore-volume-logs:    
+  postgres_data:
+  pgadmin_data:

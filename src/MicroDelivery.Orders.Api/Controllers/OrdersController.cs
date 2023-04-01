@@ -18,9 +18,9 @@ namespace MicroDelivery.Orders.Api.Controllers
         private const string StreamName = "Orders";
         private readonly ILogger<OrdersController> logger;
         private readonly DaprClient daprClient;
-        private readonly IOrderRepository orderRepository;
+        private readonly IOrdersRepository orderRepository;
 
-        public OrdersController(ILogger<OrdersController> logger, DaprClient daprClient, IOrderRepository orderRepository)
+        public OrdersController(ILogger<OrdersController> logger, DaprClient daprClient, IOrdersRepository orderRepository)
         {
             this.logger = logger;
             this.daprClient = daprClient;

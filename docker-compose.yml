@@ -118,6 +118,16 @@ services:
     restart: always
     image: mcr.microsoft.com/mssql/server:2022-latest
 
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres
+  
+  pgadmin:
+    container_name: pgadmin
+    restart: always
+    image: dpage/pgadmin4
+
   rabbit:
     container_name: rabbit  
     image: "rabbitmq:3-management"

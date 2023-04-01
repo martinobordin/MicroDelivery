@@ -28,8 +28,12 @@ namespace MicroDelivery.Products.Api.Data
             logger.LogInformation($"{nameof(DatabaseSeeder)} is working.");
 
             using IServiceScope scope = serviceProvider.CreateScope();
-            var productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
-           
+
+            var customerContext = scope.ServiceProvider.GetRequiredService<ProductsContext>();
+            await customerContext.Database.EnsureCreatedAsync();
+
+            var productRepository = scope.ServiceProvider.GetRequiredService<IProductsRepository>();
+
             var totalProducts = await productRepository.CountAllProductsAsync();
             if (totalProducts == 0)
             {
@@ -45,12 +49,12 @@ namespace MicroDelivery.Products.Api.Data
 
         private static IEnumerable<Product> GetSampleProducts()
         {
-            yield return new Product { Id = 1, Name = "Tomato salad", Price = 8, Categories = new[] { "Salad", "Vegan", "Food" } };
-            yield return new Product { Id = 2, Name = "Margherita", Price = 6, Categories = new[] { "Pizza", "Food" } };
-            yield return new Product { Id = 3, Name = "Marinara", Price = 5, Categories = new[] { "Pizza", "Food" } };
-            yield return new Product { Id = 4, Name = "Water", Price = 2, Categories = new[] { "Beverage", "Non alcoholic" } };
-            yield return new Product { Id = 5, Name = "Tea", Price = 3, Categories = new[] { "Beverage", "Non alcoholic" } };
-            yield return new Product { Id = 6, Name = "Bier", Price = 4, Categories = new[] { "Beverage", "Alcoholic" } };
+            yield return new Product { Id = 1, Name = "Tomato salad", Price = 8, Category = "Salad" };
+            yield return new Product { Id = 2, Name = "Margherita", Price = 6, Category = "Pizza" };
+            yield return new Product { Id = 3, Name = "Marinara", Price = 5, Category = "Pizza" };
+            yield return new Product { Id = 4, Name = "Water", Price = 2, Category = "Beverage" };
+            yield return new Product { Id = 5, Name = "Tea", Price = 3, Category = "Beverage" };
+            yield return new Product { Id = 6, Name = "Bier", Price = 4, Category = "Beverage" };
         }
     }
 }

@@ -13,12 +13,12 @@ namespace MicroDelivery.Products.Api.Controllers
     {
         private readonly ILogger<ProductsController> logger;
         private readonly DaprClient daprClient;
-        private readonly IProductRepository productRepository;
+        private readonly IProductsRepository productRepository;
 
         private const string StateKey = "GetProducts";
         private readonly Dictionary<string, string> stateMetaData = new() { { "ttlInSeconds", "10" } };
 
-        public ProductsController(ILogger<ProductsController> logger, DaprClient daprClient, IProductRepository productRepository)
+        public ProductsController(ILogger<ProductsController> logger, DaprClient daprClient, IProductsRepository productRepository)
         {
             this.logger = logger;
             this.daprClient = daprClient;

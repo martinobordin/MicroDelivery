@@ -29,10 +29,10 @@ namespace MicroDelivery.Customers.Api.Data
 
             using IServiceScope scope = serviceProvider.CreateScope();
 
-            var customerContext = scope.ServiceProvider.GetRequiredService<CustomerContext>();
+            var customerContext = scope.ServiceProvider.GetRequiredService<CustomersContext>();
             await customerContext.Database.EnsureCreatedAsync();
 
-            var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomerRepository>();
+            var customerRepository = scope.ServiceProvider.GetRequiredService<ICustomersRepository>();
 
             var totalCustomers = await customerRepository.CountAllCustomersAsync();
             if (totalCustomers == 0)

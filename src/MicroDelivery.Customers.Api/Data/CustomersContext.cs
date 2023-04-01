@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicroDelivery.Customers.Api.Data
 {
-    public class CustomerContext : DbContext
+    public class CustomersContext : DbContext
     {
-        public CustomerContext(DbContextOptions<CustomerContext> options)
+        public CustomersContext(DbContextOptions<CustomersContext> options)
               : base(options)
         {
         }
@@ -14,7 +14,7 @@ namespace MicroDelivery.Customers.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomersContext).Assembly);
         }
     }
 }
