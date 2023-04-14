@@ -1,10 +1,8 @@
 using Dapr;
 using Dapr.Client;
-using Grpc.Core;
 using MicroDelivery.Shared;
 using MicroDelivery.Shared.IntegrationEvents;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MicroDelivery.Shipping.Api.Controllers
 {

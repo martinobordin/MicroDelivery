@@ -2,7 +2,7 @@
 {
     public record OrderShippedIntegrationEvent : BaseIntegrationEvent
     {
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
         public DateTime ShippedAtUtc { get; set; }
     }
 }

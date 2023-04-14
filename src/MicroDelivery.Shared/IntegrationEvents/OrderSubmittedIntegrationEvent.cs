@@ -2,7 +2,7 @@
 {
     public record OrderSubmittedIntegrationEvent : BaseIntegrationEvent
     {
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }

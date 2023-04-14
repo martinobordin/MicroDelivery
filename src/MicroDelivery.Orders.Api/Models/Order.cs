@@ -3,8 +3,8 @@
     public class Order
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-        public int CustomerId { get; set; }
+        public string Id { get; } = Guid.NewGuid().ToString();
+        public DateTime CreatedAtUtc { get; } = DateTime.UtcNow;
         public string CustomerFirstName { get; set; } = string.Empty;
         public string CustomerLastName { get; set; } = string.Empty;
         public string CustomerEmail { get; set; } = string.Empty;

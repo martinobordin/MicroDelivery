@@ -6,12 +6,12 @@ namespace MicroDelivery.Orders.Api.Data
     public interface IOrdersRepository
     {
         Task<IEnumerable<Order>> GetOrdersAsync();
-        Task<Order> GetOrderAsync(Guid id);
+        Task<Order> GetOrderAsync(string id);
         Task<long> CountAllOrderAsync();
 
         Task<Order> CreateOrderAsync(Order order);
         Task<Order> UpdateOrderAsync(Order order);
-        Task<bool> DeleteOrderAsync(Guid id);
+        Task<bool> DeleteOrderAsync(string id);
     }
 
     public class OrdersRepository : IOrdersRepository
@@ -32,7 +32,7 @@ namespace MicroDelivery.Orders.Api.Data
             return await this.orders.Find(p => true).ToListAsync();
         }
 
-        public async Task<Order> GetOrderAsync(Guid id)
+        public async Task<Order> GetOrderAsync(string id)
         {
             return await this.orders.Find(p => p.Id == id).FirstOrDefaultAsync();
         }
@@ -42,19 +42,19 @@ namespace MicroDelivery.Orders.Api.Data
             return await orders.EstimatedDocumentCountAsync();
         }
 
-        public async Task<Order> CreateOrderAsync(Order product)
+        public async Task<Order> CreateOrderAsync(Order order)
         {
-            await this.orders.InsertOneAsync(product);
-            return product;
+            await this.orders.InsertOneAsync(order);
+            return order;
         }
 
-        public async Task<Order> UpdateOrderAsync(Order product)
+        public async Task<Order> UpdateOrderAsync(Order order)
         {
-            var result = await this.orders.ReplaceOneAsync(p => p.Id == product.Id, product);
-            return product;
+            var result = await this.orders.ReplaceOneAsync(p => p.Id == order.Id, order);
+            return order;
         }
 
-        public async Task<bool> DeleteOrderAsync(Guid id)
+        public async Task<bool> DeleteOrderAsync(string id)
         {
             var result = await this.orders.DeleteOneAsync(p => p.Id == id);
             return result.IsAcknowledged && result.DeletedCount == 1;
