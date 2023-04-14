@@ -1,1 +1,6 @@
-GET http://localhost:6010/v1.0/invoke/microdelivery-customers/method/customers
+@hostname = localhost
+@port = 8000
+@host = http://{{hostname}}:{{port}}
+
+###  Get all customers
+GET {{host}}/Customers
