@@ -15,7 +15,6 @@ namespace MicroDelivery.Orders.Api.Controllers
     [Route("[controller]")]
     public class OrdersController : ControllerBase
     {
-        private const string StreamName = "Orders";
         private readonly ILogger<OrdersController> logger;
         private readonly DaprClient daprClient;
         private readonly IOrdersRepository orderRepository;
