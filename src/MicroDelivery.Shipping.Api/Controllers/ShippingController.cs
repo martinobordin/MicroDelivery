@@ -31,6 +31,9 @@ namespace MicroDelivery.Shipping.Api.Controllers
 
             await this.daprClient.InvokeBindingAsync(DaprConstants.HttpBinding, "post", orderSubmittedIntegrationEvent);
 
+            // Simulate shipping delay
+            await Task.Delay(1000);
+
             var orderShippedIntegrationEvent = new OrderShippedIntegrationEvent() { OrderId = orderSubmittedIntegrationEvent.OrderId, ShippedAtUtc = DateTime.UtcNow };
             await daprClient.PublishEventAsync(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderShippedEventTopic, orderShippedIntegrationEvent);
 

@@ -58,7 +58,7 @@ namespace MicroDelivery.Orders.Api.Controllers
                     throw new Exception($"Product {requestOrderLineItem.ProductId} not found");
                 }
 
-                var discountedPrice = discount == 0 ? productInfo.Price : productInfo.Price * (discount / 100);
+                var discountedPrice = discount == 0 ? productInfo.Price : productInfo.Price - (productInfo.Price * ((double)discount / 100));
 
                 var orderLineItem = new OrderLineItem
                 {
@@ -123,7 +123,7 @@ namespace MicroDelivery.Orders.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrder(Guid id)
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrder(string id)
         {
             var order = await this.orderRepository.GetOrderAsync(id);
             if (order is null)
@@ -136,7 +136,7 @@ namespace MicroDelivery.Orders.Api.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Order>> DeleteProduct(Guid id)
+        public async Task<ActionResult<Order>> DeleteProduct(string id)
         {
             await this.orderRepository.DeleteOrderAsync(id);
             return Ok();

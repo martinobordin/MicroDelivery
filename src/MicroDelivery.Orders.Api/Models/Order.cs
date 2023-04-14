@@ -1,16 +1,19 @@
-﻿namespace MicroDelivery.Orders.Api.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace MicroDelivery.Orders.Api.Models
 {
     public class Order
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Id { get; } = Guid.NewGuid().ToString();
-        public DateTime CreatedAtUtc { get; } = DateTime.UtcNow;
+        [BsonId]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+        public int CustomerId { get; set; }
         public string CustomerFirstName { get; set; } = string.Empty;
         public string CustomerLastName { get; set; } = string.Empty;
         public string CustomerEmail { get; set; } = string.Empty;
-        public IEnumerable<OrderLineItem> OrderLineItems { get; set; } = new List<OrderLineItem>();
         public int TotalDiscount { get; set; }
-        public DateTime? ShippedAtUtc { get; internal set; }
+        public IEnumerable<OrderLineItem> OrderLineItems { get; set; } = new List<OrderLineItem>();
+        public DateTime? ShippedAtUtc { get; set; }
     }
 
     public class OrderLineItem
