@@ -28,6 +28,7 @@ namespace MicroDelivery.Discount.Api.Controllers
             if (!crazyDiscountEnabled)
             {
                 logger.LogInformation($"CrazyDiscount is disabled");
+                return Ok();
             }
 
             var random = new Random(Guid.NewGuid().GetHashCode());
@@ -39,10 +40,17 @@ namespace MicroDelivery.Discount.Api.Controllers
             return Ok();
         }
 
-        [HttpGet(Name = "GetDiscount")]
+        [HttpGet]
         public async Task<int> GetDiscount()
         {
-            var discount = await daprClient.GetStateAsync<int>(DaprConstants.RedisStateComponentName, DiscountConstants.CrazyDiscountValue);
+            var discount = 0;
+
+            var crazyDiscountEnabled = configuration.GetValue<bool>(DiscountConstants.CrazyDiscountEnabledKey);
+            if (crazyDiscountEnabled)
+            {
+                discount = await daprClient.GetStateAsync<int>(DaprConstants.RedisStateComponentName, DiscountConstants.CrazyDiscountValue);
+            }
+            
             return discount;
         }
     }
