@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{C9C100D4-8
 	ProjectSection(SolutionItems) = preProject
 		http\customers.http = http\customers.http
 		http\orders.http = http\orders.http
+		http\discounts.http = http\discounts.http
 		http\products.http = http\products.http
 	EndProjectSection
 EndProject

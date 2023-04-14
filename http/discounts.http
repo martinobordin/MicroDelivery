@@ -1,0 +1,6 @@
+@hostname = localhost
+@port = 8005
+@host = http://{{hostname}}:{{port}}
+
+###  Get current valid discount
+GET {{host}}/Discount
