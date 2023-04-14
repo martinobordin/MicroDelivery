@@ -22,24 +22,14 @@ namespace MicroDelivery.Products.Api.Controllers
         {
             this.logger = logger;
             this.daprClient = daprClient;
-            this.productRepository = productRepository; 
+            this.productRepository = productRepository;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            logger.LogInformation($"{nameof(GetProducts)} called. Checking the state");
-            
-            var products = await daprClient.GetStateAsync<IEnumerable<Product>>(DaprConstants.RedisStateComponentName, StateKey);
-            if (products == null)
-            {
-                products = await this.productRepository.GetProductsAsync();
-                await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, StateKey, products, metadata: stateMetaData);
-
-                logger.LogInformation($"{nameof(GetProducts)} called. State updated");
-            }
-                
+            var products = await GetProductsFromCache();
             return Ok(products);
         }
 
@@ -48,7 +38,8 @@ namespace MicroDelivery.Products.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct(int id)
         {
-            var product = await this.productRepository.GetProductAsync(id);
+            var products = await GetProductsFromCache();
+            var product = products?.FirstOrDefault(x => x.Id == id);
             if (product is null)
             {
                 return NotFound();
@@ -62,6 +53,7 @@ namespace MicroDelivery.Products.Api.Controllers
         public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
             await this.productRepository.CreateProductAsync(product);
+            await ClearProductsCache();
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
         }
 
@@ -70,6 +62,7 @@ namespace MicroDelivery.Products.Api.Controllers
         public async Task<ActionResult<Product>> UpdateProduct(Product product)
         {
             await this.productRepository.UpdateProductAsync(product);
+            await ClearProductsCache();
             return Ok(product);
         }
 
@@ -78,7 +71,29 @@ namespace MicroDelivery.Products.Api.Controllers
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
             await this.productRepository.DeleteProductAsync(id);
+            await ClearProductsCache();
             return Ok();
+        }
+
+        private async Task<IEnumerable<Product>> GetProductsFromCache()
+        {
+            logger.LogInformation($"{nameof(GetProductsFromCache)} called. Checking the state");
+
+            var products = await daprClient.GetStateAsync<IEnumerable<Product>>(DaprConstants.RedisStateComponentName, StateKey);
+            if (products == null)
+            {
+                products = await this.productRepository.GetProductsAsync();
+                await daprClient.SaveStateAsync(DaprConstants.RedisStateComponentName, StateKey, products, metadata: stateMetaData);
+
+                logger.LogInformation($"{nameof(GetProductsFromCache)} called. State updated");
+            }
+
+            return products;
+        }
+
+        private async Task ClearProductsCache()
+        {
+            await daprClient.DeleteStateAsync(DaprConstants.RedisStateComponentName, StateKey);
         }
     }
 }
