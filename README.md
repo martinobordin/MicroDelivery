@@ -1,5 +1,6 @@
 # MicroDelivery
-A simple microservices solution using DAPR & .NET SDK.
+A simple microservices solution using __DAPR__ & __.NET SDK__.
+Just run the solution with __Visual Studio__ using docker-compose and you'll have a full working solution with all the microservices and the DAPR sidecar containers.
 
 ![Overview](/docs/f.png)
 
@@ -41,6 +42,7 @@ The calculation is triggered by a Dapr CRON Binding, and the configuration is st
 *MicroDelivery.Notifications.Api* (http://localhost:8004/swagger/index.html)
 #### Description
 It's a microservice that receives the message OrderSubmittedEvent and sends a confirmation email to customers, using Dapr SMTP binding.
+Check the email accessing the SMTP dev server (http://localhost:5000)
 
 ### Shippings Microservice
 ![Shippings Microservice](/docs/s.png)
@@ -48,3 +50,4 @@ It's a microservice that receives the message OrderSubmittedEvent and sends a co
 *MicroDelivery.Shipping.Api* (http://localhost:8003/swagger/index.html)
 #### Description
 It's a microservice that receives the message OrderSubmittedEvent and performs an HTTP call to an external Webhook, using Dapr HTTP binding and reading the Bearer Token from Dapr Secret store.
+Check the Webhook call accessing the EchoRest Bot (http://echorestbot.azurewebsites.net/history)
