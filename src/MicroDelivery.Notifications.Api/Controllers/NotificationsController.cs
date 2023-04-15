@@ -24,15 +24,9 @@ namespace MicroDelivery.Notifications.Api.Controllers
         [Topic(DaprConstants.RabbitMqPubSubComponentName, DaprConstants.OrderSubmittedEventTopic)]
         public async Task<ActionResult> OnOrderSubmittedEventAsync(OrderSubmittedIntegrationEvent orderSubmittedIntegrationEvent)
         {
-            this.logger.LogInformation("Sending notification for order #{OrderId} to {CustomerFirstName} {CustomerLastName} ({CustomerEmail})",
-                orderSubmittedIntegrationEvent.OrderId,
-                orderSubmittedIntegrationEvent.CustomerFirstName,
-                orderSubmittedIntegrationEvent.CustomerLastName,
-                orderSubmittedIntegrationEvent.CustomerEmail);
-
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Hello {orderSubmittedIntegrationEvent.CustomerFirstName} {orderSubmittedIntegrationEvent.CustomerLastName}<br>");
-            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedIntegrationEvent.OrderId.ToString()[..6]}</strong> has been shipped.<br><br>");
+            stringBuilder.AppendLine($"Your order <strong>#{orderSubmittedIntegrationEvent.OrderId.ToString()[..6]}</strong> has been confirmed.<br><br>");
             stringBuilder.AppendLine($"Your CRAZY DISCOUNT is <strong>#{orderSubmittedIntegrationEvent.TotalDiscount}%</strong>!<br><br>");
             stringBuilder.AppendLine($"Here your item(s):<br><ul>");
 
