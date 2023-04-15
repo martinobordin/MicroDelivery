@@ -10,8 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{C9C100D4-8ADB-41BD-AB9E-0232A3F3497D}"
 	ProjectSection(SolutionItems) = preProject
 		http\customers.http = http\customers.http
-		http\orders.http = http\orders.http
 		http\discounts.http = http\discounts.http
+		http\orders.http = http\orders.http
 		http\products.http = http\products.http
 	EndProjectSection
 EndProject
@@ -32,8 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 		dapr\components\httpbinding.yaml = dapr\components\httpbinding.yaml
 		dapr\components\localsecretstore.yaml = dapr\components\localsecretstore.yaml
 		dapr\components\mongostore.yaml = dapr\components\mongostore.yaml
-		dapr\components\rabbitpubsub.yaml = dapr\components\rabbitpubsub.yaml
 		dapr\components\redisconfigstore.yaml = dapr\components\redisconfigstore.yaml
+		dapr\components\rabbitmqpubsub.yaml = dapr\components\rabbitmqpubsub.yaml
 		dapr\components\redisstore.yaml = dapr\components\redisstore.yaml
 		dapr\components\secrets.json = dapr\components\secrets.json
 		dapr\components\smtpbinding.yaml = dapr\components\smtpbinding.yaml
@@ -50,6 +50,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{EB21E9B5-E5F4-4665-BF69-BAB729778C24}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\configuration\configuration.yaml = dapr\configuration\configuration.yaml
+		dapr\configuration\resiliency.yaml = dapr\configuration\resiliency.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroDelivery.Shipping.Api", "src\MicroDelivery.Shipping.Api\MicroDelivery.Shipping.Api.csproj", "{B50DD663-09B2-4A3A-9C91-AE81A7701CA1}"
