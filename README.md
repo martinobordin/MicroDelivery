@@ -7,6 +7,7 @@ Just run the solution with __Visual Studio__ using docker-compose and you'll hav
 2. [The application scenario](https://www.linkedin.com/pulse/2-dapr-application-scenario-martino-bordin/)
 3. [Create a Dapr service](https://www.linkedin.com/pulse/3-dapr-create-service-martino-bordin/)
 4. [State management](https://www.linkedin.com/pulse/4-dapr-state-management-martino-bordin/)
+5. [Input Binding and Configuration](https://www.linkedin.com/pulse/5-dapr-input-binding-configuration-martino-bordin)
 
 # Overview
 ![Overview](/docs/f.png)
