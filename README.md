@@ -9,6 +9,8 @@ Just run the solution with __Visual Studio__ using docker-compose and you'll hav
 4. [State management](https://www.linkedin.com/pulse/4-dapr-state-management-martino-bordin/)
 5. [Input Binding and Configuration](https://www.linkedin.com/pulse/5-dapr-input-binding-configuration-martino-bordin/)
 6. [Service invocation & Pub/sub](https://www.linkedin.com/pulse/6-dapr-service-invocation-pubsub-martino-bordin/)
+7. [Pub/sub & Output Binding](https://www.linkedin.com/pulse/7-dapr-pubsub-output-binding-martino-bordin/)
+8. [Secret management](https://www.linkedin.com/pulse/8-dapr-secret-management-martino-bordin/)
 
 # Overview
 ![Overview](/docs/f.png)
