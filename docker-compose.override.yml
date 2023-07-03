@@ -11,7 +11,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-customers-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
@@ -29,7 +29,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-products-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
@@ -47,7 +47,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-orders-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
@@ -64,7 +64,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-shipping-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
@@ -82,7 +82,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-notifications-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
@@ -100,7 +100,7 @@ services:
     command: ["./daprd",
       "-app-id", "microdelivery-discount-api",
       "-app-port", "80",
-      "-components-path", "/components",
+      "-resources-path", "/components",
       "-config", "/configuration/configuration.yaml",
       "-log-level", "debug"
       ]
