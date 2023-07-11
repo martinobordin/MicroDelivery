@@ -13,6 +13,7 @@ Just run the solution with __Visual Studio__ using docker-compose and you'll hav
 8. [Secret management](https://www.linkedin.com/pulse/8-dapr-secret-management-martino-bordin/)
 9. [Resiliency](https://www.linkedin.com/pulse/9-dapr-resiliency-martino-bordin)
 10. [Observability](https://www.linkedin.com/pulse/10-dapr-observability-martino-bordin)
+11. [The end](https://www.linkedin.com/pulse/11-dapr-end-martino-bordin)
 
 # Overview
 ![Overview](/docs/f.png)
